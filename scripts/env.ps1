@@ -1,6 +1,6 @@
 # ============================================================================
 # scripts/env.ps1
-# Activate the project-local, portable JDK 21 and Maven 3.9.9 toolchain for
+# Activate the project-local, portable JDK 21 and Maven 3.9.x toolchain for
 # the current PowerShell session only.
 #
 # Usage (recommended, keeps the environment in your current shell):
@@ -15,6 +15,7 @@
 # ============================================================================
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
+$isDotSourced = ($MyInvocation.InvocationName -eq '.')
 
 $javaHome = Join-Path -Path $repoRoot -ChildPath '.tools\jdk21'
 $mavenHome = Join-Path -Path $repoRoot -ChildPath '.tools\maven'
@@ -35,6 +36,8 @@ if ($missingPaths.Count -gt 0) {
         Write-Host ('  Missing expected path: {0}' -f $missingPath) -ForegroundColor Red
     }
     Write-Host 'Run the project toolchain setup before activating the environment.' -ForegroundColor Red
+    # Never call `exit` in a dot-sourced script: it would close the caller's shell.
+    if ($isDotSourced) { return }
     exit 1
 }
 
@@ -46,9 +49,10 @@ Write-Host ('JAVA_HOME  = {0}' -f $env:JAVA_HOME)
 Write-Host ('MAVEN_HOME = {0}' -f $env:MAVEN_HOME)
 Write-Host ''
 
-# java -version writes its output to stderr, so capture it with 2>&1.
+# java -version writes its output to stderr. Calling it through cmd.exe avoids
+# PowerShell turning those stderr lines into NativeCommandError records.
 Write-Host 'java -version:'
-$javaVersionOutput = & java -version 2>&1 | Out-String
+$javaVersionOutput = (& cmd /c 'java -version 2>&1' | Out-String)
 Write-Host $javaVersionOutput.TrimEnd()
 
 Write-Host ''

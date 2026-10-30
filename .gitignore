@@ -43,3 +43,6 @@ logs/
 # Archives kept at project root
 /*.zip
 /*.rar
+
+# Pre-existing unrelated project kept on disk, excluded from this repository
+TicketBookingSystem/

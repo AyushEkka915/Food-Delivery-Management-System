@@ -20,6 +20,24 @@ $ErrorActionPreference = 'Continue'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $checks = New-Object System.Collections.ArrayList
 
+# ----------------------------------------------------------------------------
+# Activate the project-local portable toolchain, if it is present, so the
+# checks report what the build will actually use. This only sets
+# process-scoped environment variables; it installs and modifies nothing.
+# ----------------------------------------------------------------------------
+$portableJdkPath = Join-Path -Path $repoRoot -ChildPath '.tools\jdk21'
+$portableMavenPath = Join-Path -Path $repoRoot -ChildPath '.tools\maven'
+
+if (Test-Path -LiteralPath (Join-Path -Path $portableJdkPath -ChildPath 'bin\java.exe') -PathType Leaf) {
+    $env:JAVA_HOME = $portableJdkPath
+    $env:Path = (Join-Path -Path $portableJdkPath -ChildPath 'bin') + ';' + $env:Path
+}
+
+if (Test-Path -LiteralPath (Join-Path -Path $portableMavenPath -ChildPath 'bin\mvn.cmd') -PathType Leaf) {
+    $env:MAVEN_HOME = $portableMavenPath
+    $env:Path = (Join-Path -Path $portableMavenPath -ChildPath 'bin') + ';' + $env:Path
+}
+
 function Add-Check {
     param(
         [string]$Name,
@@ -151,7 +169,7 @@ else {
 $ErrorActionPreference = 'Continue'
 $mavenExecutable = Join-Path -Path $repoRoot -ChildPath '.tools\maven\bin\mvn.cmd'
 if (-not (Test-Path -LiteralPath $mavenExecutable -PathType Leaf)) {
-    Add-Check -Name 'Maven 3.9.9' -Required 'Yes' `
+    Add-Check -Name 'Maven 3.9.x' -Required 'Yes' `
         -Found ('Missing {0}' -f $mavenExecutable) `
         -Status 'FAIL' -Hint 'Run the portable toolchain setup so .tools\maven is available.'
 }
@@ -162,7 +180,7 @@ else {
         if (-not $mavenError) {
             $mavenError = 'mvn -v returned a non-zero exit code'
         }
-        Add-Check -Name 'Maven 3.9.9' -Required 'Yes' -Found $mavenError `
+        Add-Check -Name 'Maven 3.9.x' -Required 'Yes' -Found $mavenError `
             -Status 'FAIL' -Hint 'Run .\scripts\env.ps1 first, then check the portable Maven installation.'
     }
     else {
@@ -177,12 +195,12 @@ else {
         }
 
         if (-not $mavenJavaVersion) {
-            Add-Check -Name 'Maven 3.9.9' -Required 'Yes' `
+            Add-Check -Name 'Maven 3.9.x' -Required 'Yes' `
                 -Found 'mvn -v succeeded but its Java version could not be read' `
                 -Status 'FAIL' -Hint 'Ensure JAVA_HOME points to .tools\jdk21 and JAVA_HOME is honoured.'
         }
         elseif (-not ($mavenJavaVersion -like '21.*' -or $mavenJavaVersion -eq '21')) {
-            Add-Check -Name 'Maven 3.9.9' -Required 'Yes' `
+            Add-Check -Name 'Maven 3.9.x' -Required 'Yes' `
                 -Found ('Maven {0} is running on Java {1}, not Java 21' -f $mavenVersion, $mavenJavaVersion) `
                 -Status 'FAIL' -Hint 'Dot-source .\scripts\env.ps1 so Maven uses the portable JDK 21.'
         }
@@ -190,7 +208,7 @@ else {
             if (-not $mavenVersion) {
                 $mavenVersion = 'version unknown'
             }
-            Add-Check -Name 'Maven 3.9.9' -Required 'Yes' `
+            Add-Check -Name 'Maven 3.9.x' -Required 'Yes' `
                 -Found ('Maven {0}; Java {1}' -f $mavenVersion, $mavenJavaVersion) `
                 -Status 'PASS' -Hint '-'
         }
@@ -382,7 +400,16 @@ else {
 # Report
 # ----------------------------------------------------------------------------
 Write-Host ''
-$checks | Format-Table -Property Name, Required, Found, Status, Hint -AutoSize | Out-Host
+$checks | Format-Table -Property Status, Name, Found -AutoSize -Wrap | Out-Host
+
+$issueChecks = @($checks | Where-Object { $_.Status -ne 'PASS' -and $_.Hint -ne '-' })
+if ($issueChecks.Count -gt 0) {
+    Write-Host 'Hints:'
+    foreach ($issue in $issueChecks) {
+        Write-Host ('  [{0}] {1} - {2}' -f $issue.Status, $issue.Name, $issue.Hint)
+    }
+    Write-Host ''
+}
 
 $passed = @($checks | Where-Object { $_.Status -eq 'PASS' }).Count
 $warnings = @($checks | Where-Object { $_.Status -eq 'WARN' }).Count

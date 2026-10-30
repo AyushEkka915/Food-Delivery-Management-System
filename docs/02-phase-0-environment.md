@@ -10,8 +10,8 @@ application code is written. It removes the risk that later failures (build
 errors, wrong bytecode level, missing build tool) are misdiagnosed as code
 defects.
 
-Exit criteria: a single repeatable `doctor` check (planned at
-`scripts/doctor.ps1`) prints one line per component with an explicit
+Exit criteria: a single repeatable `doctor` check at `scripts/doctor.ps1`
+prints one line per component with an explicit
 `PASS` / `FAIL` result and exits with code 0 only when every component passes.
 The check must be re-runnable by any team member on any machine and must read
 its values from the repository-local toolchain, not from global machine state.
