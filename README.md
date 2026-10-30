@@ -52,9 +52,18 @@ The repository is currently at **Phase 0 (environment and repository setup)**. N
 
 ## Getting started
 
-There is nothing to run yet. This project is scaffolded only: no `pom.xml`, no `package.json`, no application source and no database migrations exist at this stage.
+There is nothing to build yet. This project is scaffolded only: no `pom.xml`, no `package.json`, no application source and no database migrations exist at this stage.
 
 Build and run instructions will be added in **Phase 4 (Spring Boot initialization)** once the backend skeleton actually exists. Commands are deliberately not documented here yet, because inventing them before the code exists would produce instructions that fail.
+
+What you *can* run today is the environment check:
+
+```powershell
+. .\scripts\env.ps1     # activates the project-local JDK 21 + Maven 3.9 toolchain
+.\scripts\doctor.ps1    # read-only PASS/FAIL report for every dependency
+```
+
+The toolchain lives in `.tools/` (gitignored), so nothing is installed system-wide. `scripts/create-database.sql` creates the MySQL database and a least-privilege application user; see `docs/02-phase-0-environment.md` for the full procedure.
 
 ## Project status
 

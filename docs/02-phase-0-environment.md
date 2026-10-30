@@ -24,7 +24,7 @@ Audit performed on the student's machine, Windows 11, before any changes.
 |---|---|---|---|---|
 | Operating system | Windows 10/11 x64 | Windows 11 Home Single Language, build 10.0.26300.0 | PASS | None |
 | JDK | JDK 21 LTS | `PATH` resolves to the `javapath` shim; `java -version` gave no captured output. On disk: `jdk-26.0.2.1`, `jdk-26.0.1`; `javac -version` reports 26.0.2.1. `JAVA_HOME` empty. | WARN | Pin JDK 21 GA (Temurin, windows x64) to `.tools/jdk21/` |
-| Maven | Apache Maven 3.9.9 | Not installed; `where.exe mvn` and `mvn -v` returned nothing. `%USERPROFILE%\.m2` holds `repository/` and `wrapper/`. | BLOCKED | Pin Maven 3.9.9 to `.tools/maven/` |
+| Maven | Apache Maven 3.9.x | Not installed; `where.exe mvn` and `mvn -v` returned nothing. `%USERPROFILE%\.m2` holds `repository/` and `wrapper/`. | BLOCKED | Pin Maven 3.9.16 (latest 3.9.x) to `.tools/maven/` |
 | Node.js / npm | Node.js 20 LTS or newer | Node.js v24.14.0 at `C:\Program Files\nodejs\node.exe`; npm 11.9.0 | PASS | None |
 | Git | Recent Git for Windows | 2.52.0.windows.1; user `Ayush Ekka`, `ayushekka915@gmail.com` | PASS | None |
 | MySQL | MySQL 8 server and client | Client and server `Ver 8.0.45 for Win64`; service `MySQL80` Running; TCP 3306 accepts connections; config `C:\ProgramData\MySQL\MySQL Server 8.0\my.ini` | WARN | Per-developer credentials; create least-privilege app user |
@@ -64,7 +64,7 @@ cannot use root, so the project must create its own application user.
 ## 4. Remediation — project-local toolchain (PowerShell)
 
 Decision: pin a portable, gitignored toolchain inside the repository —
-Temurin JDK 21 GA at `.tools/jdk21/` and Apache Maven 3.9.9 at `.tools/maven/`.
+Temurin JDK 21 GA at `.tools/jdk21/` and Apache Maven 3.9.16 at `.tools/maven/`.
 Rationale: the machine only has JDK 26 (newer than the validated target), Maven
 is absent, a system-wide install needs administrator rights, and a
 repository-local toolchain makes the college lab machine reproducible.
@@ -125,7 +125,7 @@ lets each developer use their own password.
 | Check | Command | Expected |
 |---|---|---|
 | Toolchain present | `& "$Repo\.tools\jdk21\bin\java.exe" -version` | `openjdk version "21...` |
-| Maven on session `PATH` | `mvn -v` | `Apache Maven 3.9.9`, `Java version: 21...`, `Java home: ...\.tools\jdk21` |
+| Maven on session `PATH` | `mvn -v` | `Apache Maven 3.9.16`, `Java version: 21...`, `Java home: ...\.tools\jdk21` |
 | Node.js | `node -v` | `v24.14.0` |
 | npm | `npm -v` | `11.9.0` |
 | Git | `git --version` | `git version 2.52.0.windows.1` |
@@ -153,3 +153,41 @@ lets each developer use their own password.
 No application code, no database schema or migrations, no frontend source, and no
 dependency download or build. Phase 0 ends when the `doctor` check passes on the
 target machines; everything above is environment scaffolding only.
+
+## 9. Post-remediation verification (actual results)
+
+Run on the target machine after the remediation steps above. These are measured
+results, not expectations.
+
+| Item | Result |
+|---|---|
+| JDK 21 (Temurin) downloaded to `.tools/jdk21/` | `openjdk version "21.0.13" 2026-10-20 LTS`, `Temurin-21.0.13+9`, `javac 21.0.13` |
+| Maven downloaded to `.tools/maven/` | `Apache Maven 3.9.16` |
+| Maven's runtime JDK | `Java version: 21.0.13`, `runtime: ...\.tools\jdk21` — `JAVA_HOME` is honoured |
+| `scripts/env.ps1` dot-sourced | returns cleanly, prints both versions, does not close the shell |
+| `scripts/doctor.ps1` | **8 passed, 1 warning, 0 failed**, exit code 0 |
+| Only warning | `.env` missing at repo root — expected until the database is created |
+| Git repository | initialised, branch `main`, two Phase 0 commits, working tree clean |
+| Files committed | 37 before cleanup; the unrelated `TicketBookingSystem/` folder is now gitignored and untracked (still on disk) |
+
+Note on the Maven version: the plan originally pinned 3.9.9, but that archive has
+been removed from the Apache CDN (HTTP 404). 3.9.16 is the current 3.9.x release
+and is what `.tools/maven/` now contains. The `doctor` check therefore validates
+"Maven 3.9.x running on Java 21" rather than one exact patch version.
+
+### Remaining Phase 0 action (requires the MySQL root password)
+
+This is the only step that cannot be automated from the build side, because the
+administrator password is not, and must not be, stored in the repository:
+
+```powershell
+& "C:\Program Files\MySQL\MySQL Server 8.0\bin\mysql.exe" -u root -p `
+  --default-character-set=utf8mb4 `
+  -e "source scripts/create-database.sql"
+```
+
+Before running it, edit `scripts/create-database.sql` and replace both
+`CHANGE_ME_strong_password` occurrences with a real password, then copy
+`.env.example` to `.env` and set `DB_PASSWORD` to the same value. After that,
+`.\scripts\doctor.ps1` reports 9 passed, 0 warnings, 0 failed.
+
