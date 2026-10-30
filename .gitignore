@@ -1,0 +1,45 @@
+# ---------------------------------------------------------------------------
+# Smart Food Delivery Management System
+# ---------------------------------------------------------------------------
+
+# Java / Maven
+target/
+*.class
+*.jar
+!**/wrapper/*.jar
+hs_err_pid*
+
+# Node / Vite
+node_modules/
+dist/
+dist-ssr
+*.local
+.vite/
+
+# Environment files (never commit real secrets)
+.env
+.env.*
+!.env.example
+
+# IDE / editors
+.idea/
+*.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+logs/
+*.log
+
+# Project-local toolchain (JDK / Maven / Node archives and extractions)
+.tools/
+
+# Archives kept at project root
+/*.zip
+/*.rar
