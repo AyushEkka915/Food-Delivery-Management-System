@@ -481,3 +481,8 @@ CREATE TABLE audit_logs (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- Deferred foreign keys (referenced table is created later in this file) ------
+ALTER TABLE orders
+    ADD CONSTRAINT fk_orders_coupon
+    FOREIGN KEY (coupon_id) REFERENCES coupons (id) ON DELETE SET NULL;
