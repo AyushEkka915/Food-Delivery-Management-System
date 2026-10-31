@@ -1,7 +1,7 @@
 # Phase 0 — Environment Audit and Toolchain Decisions
 
 Project: Smart Food Delivery Management System
-Stack: Java 21 + Spring Boot 3.5 + Maven (backend), React + Vite + Tailwind (frontend), MySQL 8
+Stack: Java 25 LTS + Spring Boot 3.5 + Maven (backend), React + Vite + Tailwind (frontend), MySQL 8
 
 ## 1. Purpose and exit criteria
 
@@ -23,7 +23,7 @@ Audit performed on the student's machine, Windows 11, before any changes.
 | Component | Required | Found | Status | Action taken |
 |---|---|---|---|---|
 | Operating system | Windows 10/11 x64 | Windows 11 Home Single Language, build 10.0.26300.0 | PASS | None |
-| JDK | JDK 21 LTS | `PATH` resolves to the `javapath` shim; `java -version` gave no captured output. On disk: `jdk-26.0.2.1`, `jdk-26.0.1`; `javac -version` reports 26.0.2.1. `JAVA_HOME` empty. | WARN | Pin JDK 21 GA (Temurin, windows x64) to `.tools/jdk21/` |
+| JDK | JDK 25 LTS | `PATH` resolves to the `javapath` shim; `java -version` reported Java 26.0.2.1. `JAVA_HOME` empty. | WARN | Pin JDK 25 GA (Temurin, windows x64) to `.tools/jdk25/` |
 | Maven | Apache Maven 3.9.x | Not installed; `where.exe mvn` and `mvn -v` returned nothing. `%USERPROFILE%\.m2` holds `repository/` and `wrapper/`. | BLOCKED | Pin Maven 3.9.16 (latest 3.9.x) to `.tools/maven/` |
 | Node.js / npm | Node.js 20 LTS or newer | Node.js v24.14.0 at `C:\Program Files\nodejs\node.exe`; npm 11.9.0 | PASS | None |
 | Git | Recent Git for Windows | 2.52.0.windows.1; user `Ayush Ekka`, `ayushekka915@gmail.com` | PASS | None |
@@ -47,14 +47,12 @@ full path inside the real JDK removes the ambiguity.
 **Why `JAVA_HOME` matters.** Maven does not use `PATH` to find Java. It reads
 `JAVA_HOME` and runs `$JAVA_HOME\bin\java.exe`. With `JAVA_HOME` empty, Maven
 either fails with "JAVA_HOME not found" or falls back to an unintended JDK. Since
-the project must be built with Java 21, `JAVA_HOME` is the single switch deciding
+the project must be built with Java 25, `JAVA_HOME` is the single switch deciding
 which JDK compiles the code.
 
-**Why JDK 26 is not the target.** The only JDK on disk is 26, newer than the JDK
-21 baseline Spring Boot 3.5 is validated against. Newer JDKs remove and change
-behaviour that libraries rely on, and class files compiled by 26 will not run on a
-JDK 21 machine such as a college lab PC. Building with 21 keeps the artifact
-portable and the reported results trustworthy.
+**Why JDK 26 is not the target.** Java 25 is the current LTS target; JDK 26 is a
+non-LTS release. Targeting Java 25 keeps the bytecode compatible with an LTS
+runtime rather than compiling to the short-lived Java 26 release.
 
 **Why the empty root password failing is good news.** The audit tried `root` with
 no password and MySQL rejected it (exit code 1), so a root password is set, which
@@ -64,9 +62,9 @@ cannot use root, so the project must create its own application user.
 ## 4. Remediation — project-local toolchain (PowerShell)
 
 Decision: pin a portable, gitignored toolchain inside the repository —
-Temurin JDK 21 GA at `.tools/jdk21/` and Apache Maven 3.9.16 at `.tools/maven/`.
-Rationale: the machine only has JDK 26 (newer than the validated target), Maven
-is absent, a system-wide install needs administrator rights, and a
+Temurin JDK 25 GA at `.tools/jdk25/` and Apache Maven 3.9.16 at `.tools/maven/`.
+Rationale: the machine has only a Java 26 PATH shim, Maven is absent, a system-wide
+install needs administrator rights, and a
 repository-local toolchain makes the college lab machine reproducible.
 
 Run these steps in a PowerShell window opened at the repository root.
@@ -74,18 +72,18 @@ Run these steps in a PowerShell window opened at the repository root.
 1. Record the repository path for this session:
    `$Repo = "D:\MAin project\Food delivery system"`
 2. Point `JAVA_HOME` at the pinned JDK and prepend its `bin` to `PATH`:
-   `$env:JAVA_HOME = "$Repo\.tools\jdk21"`
+   `$env:JAVA_HOME = "$Repo\.tools\jdk25"`
    `$env:Path = "$env:JAVA_HOME\bin;$env:Path"`
 3. Verify by absolute path, bypassing the shim:
    `& "$env:JAVA_HOME\bin\java.exe" -version`
-   Expect an `openjdk version "21..."` banner. `java -version` writes to stderr,
+   Expect an `openjdk version "25..."` banner. `java -version` writes to stderr,
    not stdout; that is normal. To capture it in a variable for the `doctor`
    script use `& "$env:JAVA_HOME\bin\java.exe" -version 2>&1`.
 4. Point Maven at the pinned directory and add its `bin` to `PATH`:
    `$env:MAVEN_HOME = "$Repo\.tools\maven"`
    `$env:Path = "$env:MAVEN_HOME\bin;$env:Path"`
 5. Verify with `mvn -v`. The real proof is the `Java version:` and `Java home:`
-   lines, which must show 21 and `.tools\jdk21`. If `mvn -v` shows another Java,
+   lines, which must show 25 and `.tools\jdk25`. If `mvn -v` shows another Java,
    `JAVA_HOME` is not honoured and must be fixed first.
 6. These settings last for the current session only. The `doctor` script sets them
    on every run, so results never depend on persisted machine state.
@@ -190,4 +188,3 @@ Before running it, edit `scripts/create-database.sql` and replace both
 `CHANGE_ME_strong_password` occurrences with a real password, then copy
 `.env.example` to `.env` and set `DB_PASSWORD` to the same value. After that,
 `.\scripts\doctor.ps1` reports 9 passed, 0 warnings, 0 failed.
-
