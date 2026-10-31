@@ -72,7 +72,7 @@ repository-local toolchain makes the college lab machine reproducible.
 Run these steps in a PowerShell window opened at the repository root.
 
 1. Record the repository path for this session:
-   `$Repo = "D:\MAin project\Dsa Projects"`
+   `$Repo = "D:\MAin project\Food delivery system"`
 2. Point `JAVA_HOME` at the pinned JDK and prepend its `bin` to `PATH`:
    `$env:JAVA_HOME = "$Repo\.tools\jdk21"`
    `$env:Path = "$env:JAVA_HOME\bin;$env:Path"`
