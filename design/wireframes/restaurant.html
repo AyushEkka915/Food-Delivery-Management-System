@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes - Restaurant</title>
+  <link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<div class="board">
+  <h1 class="board__title">Restaurant manager screens - low-fidelity wireframes</h1>
+  <p class="board__sub">Smart Food Delivery Management System - Phase 2 - v1, for review</p>
+  <p class="board__meta">Grayscale on purpose. Annotations (<span class="anno">1</span>) explain behaviour. Dashboards use a fixed left sidebar; the main pane is content.</p>
+  <div class="screens">
+
+<!-- ================= r1 Dashboard ================= -->
+<section class="screen" id="r1">
+  <div class="screen__head"><span class="screen__id">R1</span><span class="screen__name">Restaurant dashboard</span><span class="screen__role">Restaurant</span><div class="screen__route">/restaurant</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurant</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item sidebar__item--active">Dashboard</div>
+          <div class="sidebar__item">Menu</div>
+          <div class="sidebar__item">Orders (3)</div>
+          <div class="sidebar__item">Reports</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px"><div class="line line--title" style="width:160px"></div><span class="badge">LIVE</span></div>
+          <div class="grid-4" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">Orders today</div><div class="kpi__value">42</div></div>
+            <div class="kpi"><div class="kpi__label">Revenue today</div><div class="kpi__value">Rs 18,640</div></div>
+            <div class="kpi"><div class="kpi__label">Avg prep time</div><div class="kpi__value">14 min</div></div>
+            <div class="kpi"><div class="kpi__label">Rating</div><div class="kpi__value">4.6</div></div>
+          </div>
+          <div class="card" style="margin-bottom:8px">
+            <div class="card__title">Live queue - 3 waiting</div>
+            <div class="row" style="gap:6px"><div class="box" style="width:8px;height:8px;border-radius:50%;border:none;background:#9B2C2C"></div><span class="tiny">FD-2026-004182 - 2 items - Rs 440 - waiting 4 min</span><button class="btn btn--sm btn--primary" style="margin-left:auto">Accept</button></div>
+            <div class="row" style="gap:6px;margin-top:4px"><div class="box" style="width:8px;height:8px;border-radius:50%;border:none;background:#C7CDD4"></div><span class="tiny">FD-2026-004179 - 1 item - Rs 210 - waiting 2 min</span></div>
+            <div class="row" style="gap:6px;margin-top:4px"><div class="box" style="width:8px;height:8px;border-radius:50%;border:none;background:#C7CDD4"></div><span class="tiny">FD-2026-004175 - 4 items - Rs 1,120 - waiting 1 min</span></div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card__title">Revenue - last 7 days</div>
+              <div class="row" style="align-items:flex-end;gap:4px;height:90px">
+                <div class="box" style="flex:1;height:40px"></div><div class="box" style="flex:1;height:55px"></div><div class="box" style="flex:1;height:30px"></div><div class="box" style="flex:1;height:70px"></div><div class="box" style="flex:1;height:45px"></div><div class="box" style="flex:1;height:80px"></div><div class="box" style="flex:1;height:60px"></div>
+              </div>
+              <div class="tiny muted" style="margin-top:4px">Mon Tue Wed Thu Fri Sat Sun</div>
+            </div>
+            <div class="card">
+              <div class="card__title">Top items this week</div>
+              <div class="row row--between"><span class="tiny">Chicken biryani</span><span class="tiny">48 sold</span></div>
+              <div class="row row--between"><span class="tiny">Paneer butter masala</span><span class="tiny">36 sold</span></div>
+              <div class="row row--between"><span class="tiny">Garlic naan</span><span class="tiny">31 sold</span></div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Revenue is gross sales minus the 12% platform commission; the net payout is shown on the reports screen.</li>
+    <li><span class="anno">2</span> The live queue updates over WebSocket when a new order is placed; the FIFO order is preserved across updates.</li>
+    <li><span class="anno">3</span> Only the restaurant owner (verified by ownership check on the backend) can see this dashboard.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton KPI cards</div>
+    <div class="state"><b>Empty</b>"No orders yet today" with a menu tip</div>
+    <div class="state"><b>Error</b>retry + support link</div>
+  </div>
+</section>
+
+<!-- ================= r2 Menu management ================= -->
+<section class="screen" id="r2">
+  <div class="screen__head"><span class="screen__id">R2</span><span class="screen__name">Menu management</span><span class="screen__role">Restaurant</span><div class="screen__route">/restaurant/menu</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurant/menu</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item sidebar__item--active">Menu</div>
+          <div class="sidebar__item">Orders (3)</div>
+          <div class="sidebar__item">Reports</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <div class="row" style="gap:4px"><span class="chip chip--active">Starters</span><span class="chip">Main course</span><span class="chip">Biryani</span><span class="chip">Desserts</span></div>
+            <div class="row" style="gap:6px"><input class="input" placeholder="Search items" style="width:140px"><button class="btn btn--primary btn--sm">+ Add item</button></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Item</th><th>Category</th><th>Price</th><th>Stock</th><th>Available</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>Paneer tikka</td><td>Starters</td><td>Rs 220</td><td>18</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm">Toggle</button></td></tr>
+                <tr><td>Chicken tikka</td><td>Starters</td><td>Rs 260</td><td>12</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm">Toggle</button></td></tr>
+                <tr><td>Mutton seekh kebab</td><td>Starters</td><td>Rs 320</td><td>0</td><td><span class="badge" style="background:#DC2626;color:#fff">No</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm">Toggle</button></td></tr>
+                <tr><td>Veg spring rolls</td><td>Starters</td><td>Rs 180</td><td>24</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm">Toggle</button></td></tr>
+                <tr><td>Tandoori mushroom</td><td>Starters</td><td>Rs 240</td><td>9</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm">Toggle</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">5 items shown. Stock is decremented atomically at order time.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Toggling availability is an optimistic update; a failure reverts the toggle and shows an error toast.</li>
+    <li><span class="anno">2</span> Changing a price never rewrites historical orders because order_items stores a price snapshot at checkout.</li>
+    <li><span class="anno">3</span> Deleting an item is a soft delete (is_available = false); past orders still reference it by id.</li>
+    <li><span class="anno">4</span> Stock is decremented with a conditional update so two simultaneous orders cannot oversell the last unit.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No items yet - add your first dish"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= r3 Incoming queue (DSA) ================= -->
+<section class="screen" id="r3">
+  <div class="screen__head"><span class="screen__id">R3</span><span class="screen__name">Incoming order queue</span><span class="screen__role">Restaurant</span><div class="screen__route">/restaurant/orders</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurant/orders</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Menu</div>
+          <div class="sidebar__item sidebar__item--active">Orders (3)</div>
+          <div class="sidebar__item">Reports</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="card" style="margin-bottom:8px;background:#F3F6FA;border-color:#C7D2E0">
+            <div class="tiny" style="font-weight:600">FIFO queue - data structures in use</div>
+            <div class="tiny muted">Orders are served in the order they were placed. The queue is a custom linked-list implementation (enqueue O(1), dequeue O(1), peek O(1)). It is rebuilt from the database on every restart, so a crash cannot desynchronise it.</div>
+          </div>
+          <div class="grid-2">
+            <div class="card" style="padding:0;overflow:hidden">
+              <table class="table">
+                <thead><tr><th>#</th><th>Order</th><th>Placed</th><th>Items</th><th>Amount</th><th>Waiting</th><th>Actions</th></tr></thead>
+                <tbody>
+                  <tr style="background:#F3F6FA"><td>1</td><td class="mono">FD-2026-004182</td><td>7:38 PM</td><td>3</td><td>Rs 875</td><td>4 min</td><td><button class="btn btn--sm btn--primary">Accept</button> <button class="btn btn--sm btn--danger">Reject</button></td></tr>
+                  <tr><td>2</td><td class="mono">FD-2026-004179</td><td>7:41 PM</td><td>1</td><td>Rs 210</td><td>1 min</td><td><button class="btn btn--sm btn--primary">Accept</button> <button class="btn btn--sm btn--danger">Reject</button></td></tr>
+                  <tr><td>3</td><td class="mono">FD-2026-004175</td><td>7:42 PM</td><td>4</td><td>Rs 1,120</td><td>0 min</td><td><button class="btn btn--sm btn--primary">Accept</button> <button class="btn btn--sm btn--danger">Reject</button></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col">
+              <div class="card"><div class="card__title">Queue stats</div><div class="row row--between"><span class="tiny">Waiting</span><span class="tiny" style="font-weight:600">3</span></div><div class="row row--between"><span class="tiny">Oldest waiting</span><span class="tiny" style="font-weight:600">4 min</span></div><div class="row row--between"><span class="tiny">Avg accept time</span><span class="tiny" style="font-weight:600">1 min 12 s</span></div></div>
+              <div class="card" style="margin-top:8px"><div class="card__title">On reject</div><div class="tiny muted">The order is removed from the queue, the customer is refunded if paid, stock is restored, and the customer is notified with the reason (Out of stock / Too busy / Closing soon).</div></div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Row 1 is the queue head (peek). Accepting it dequeues it in O(1) and moves the order to CONFIRMED.</li>
+    <li><span class="anno">2</span> Reject opens a modal requiring a reason; the reason is stored in order_status_history and shown to the customer.</li>
+    <li><span class="anno">3</span> Two managers accepting the same order at once: only one succeeds (optimistic lock on the order version).</li>
+    <li><span class="anno">4</span> Auto-reject after 15 minutes of no action is a SHOULD-tier feature, not shown here.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton queue rows</div>
+    <div class="state"><b>Empty</b>"No orders waiting - you are all caught up"</div>
+    <div class="state"><b>Error</b>retry button + support link</div>
+  </div>
+</section>
+
+<!-- ================= r4 Order detail ================= -->
+<section class="screen" id="r4">
+  <div class="screen__head"><span class="screen__id">R4</span><span class="screen__name">Order detail</span><span class="screen__role">Restaurant</span><div class="screen__route">/restaurant/orders/:orderId</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurant/orders/4182</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Menu</div>
+          <div class="sidebar__item sidebar__item--active">Orders (3)</div>
+          <div class="sidebar__item">Reports</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <div><div class="line line--title" style="width:160px"></div><div class="tiny muted">FD-2026-004182 - placed 7:38 PM - Spice Route</div></div>
+            <span class="badge" style="background:#D97706;color:#fff">PREPARING</span>
+          </div>
+          <div class="grid-2">
+            <div class="col">
+              <div class="card">
+                <div class="card__title">Customer</div>
+                <div class="tiny" style="font-weight:600">Ayush Ekka</div>
+                <div class="tiny muted">+91 9XXXX XXXXX (masked until assigned)</div>
+                <div class="tiny muted" style="margin-top:4px">Flat 402, Green Meadows, Patia, Bhubaneswar 751024</div>
+                <div class="tiny muted">Instructions: Ring the bell twice</div>
+              </div>
+              <div class="card" style="margin-top:8px">
+                <div class="card__title">Items</div>
+                <div class="row row--between"><span class="tiny">Paneer tikka x2</span><span class="tiny">Rs 440.00</span></div>
+                <div class="row row--between"><span class="tiny">Chicken tikka x1</span><span class="tiny">Rs 260.00</span></div>
+                <div class="row row--between"><span class="tiny">Veg spring rolls x1</span><span class="tiny">Rs 180.00</span></div>
+                <div class="divider"></div>
+                <div class="row row--between"><span class="tiny">Subtotal</span><span class="tiny">Rs 880.00</span></div>
+                <div class="row row--between"><span class="tiny">Discount (FIRST50)</span><span class="tiny">- Rs 50.00</span></div>
+                <div class="row row--between"><span class="tiny">Tax (5%)</span><span class="tiny">Rs 40.50</span></div>
+                <div class="row row--between"><span class="tiny">Delivery fee</span><span class="tiny">Rs 25.00</span></div>
+                <div class="divider"></div>
+                <div class="row row--between"><span style="font-weight:600">Total</span><span style="font-weight:600">Rs 895.50</span></div>
+              </div>
+              <div class="row" style="margin-top:10px;gap:6px">
+                <button class="btn btn--primary">Mark ready for pickup</button>
+                <button class="btn btn--danger" disabled title="Cannot cancel after preparation has started">Cancel</button>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card__title">Timeline</div>
+                <div class="timeline">
+                  <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Placed</div><div class="tiny muted">7:38 PM</div></div>
+                  <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Confirmed</div><div class="tiny muted">7:40 PM</div></div>
+                  <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Preparing</div><div class="tiny muted">7:42 PM</div></div>
+                  <div class="timeline__item"><div class="tiny" style="font-weight:600">Ready for pickup</div><div class="tiny muted">next step</div></div>
+                </div>
+              </div>
+              <div class="card" style="margin-top:8px">
+                <div class="card__title">Payment</div>
+                <div class="tiny">Cash on delivery - Rs 895.50 to collect</div>
+                <div class="tiny muted" style="margin-top:4px">Payment status: PENDING (settles on delivery)</div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The action bar shows only the legally allowed next transition; later steps are not rendered, not just disabled.</li>
+    <li><span class="anno">2</span> Cancel is shown disabled with a tooltip after preparation starts; only an admin can force-cancel, with a reason.</li>
+    <li><span class="anno">3</span> Marking ready for pickup triggers the dispatch engine (priority queue) and notifies the customer.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton blocks</div>
+    <div class="state"><b>409</b>illegal transition attempted - backend rejects</div>
+  </div>
+</section>
+
+<!-- ================= r5 Sales report ================= -->
+<section class="screen" id="r5">
+  <div class="screen__head"><span class="screen__id">R5</span><span class="screen__name">Sales report</span><span class="screen__role">Restaurant</span><div class="screen__route">/restaurant/reports</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurant/reports</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Menu</div>
+          <div class="sidebar__item">Orders (3)</div>
+          <div class="sidebar__item sidebar__item--active">Reports</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:6px;margin-bottom:10px"><span class="chip chip--active">Last 7 days</span><span class="chip">Last 30 days</span><span class="chip">Custom range</span></div>
+          <div class="grid-2" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">Total sales</div><div class="kpi__value">Rs 1,24,300</div></div>
+            <div class="kpi"><div class="kpi__label">Orders</div><div class="kpi__value">318</div></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Item</th><th>Qty sold</th><th>Revenue</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>Chicken biryani</td><td>48</td><td>Rs 15,360</td><td>12.4%</td></tr>
+                <tr><td>Paneer butter masala</td><td>36</td><td>Rs 10,080</td><td>8.1%</td></tr>
+                <tr><td>Garlic naan</td><td>31</td><td>Rs 3,720</td><td>3.0%</td></tr>
+                <tr><td>Veg pulao</td><td>28</td><td>Rs 6,720</td><td>5.4%</td></tr>
+                <tr><td>Gulab jamun</td><td>24</td><td>Rs 2,880</td><td>2.3%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">Sorted by revenue with a stable merge sort, so equal revenue keeps alphabetical order. Aggregates come from SQL GROUP BY over snapshotted order items.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Revenue uses snapshotted prices, so historical reports stay correct even after a menu price change.</li>
+    <li><span class="anno">2</span> The sort is performed on the fetched page in memory; large reports paginate first.</li>
+    <li><span class="anno">3</span> Export to CSV is a stretch-tier feature and is not shown here.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton table rows</div>
+    <div class="state"><b>Empty</b>"No orders in this range"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+  </div>
+</div>
+</body>
+</html>

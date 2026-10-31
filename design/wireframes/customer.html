@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes - Customer</title>
+  <link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<div class="board">
+  <h1 class="board__title">Customer &amp; public screens - low-fidelity wireframes</h1>
+  <p class="board__sub">Smart Food Delivery Management System - Phase 2 - v1, for review</p>
+  <p class="board__meta">Grayscale on purpose. Annotations (<span class="anno">1</span>) explain behaviour, not decoration. Every list screen shows its loading / empty / error states at the bottom of the card.</p>
+  <div class="screens">
+
+<!-- ================= 01 Landing ================= -->
+<section class="screen" id="s01">
+  <div class="screen__head"><span class="screen__id">01</span><span class="screen__name">Landing</span><span class="screen__role">Public</span><div class="screen__route">/</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Restaurants</button><button class="btn btn--sm">Login</button><button class="btn btn--primary btn--sm">Sign up</button></div>
+      <div style="padding:12px">
+        <div class="box box--hero"><span>hero image / illustration</span></div>
+        <div class="col" style="margin-top:10px">
+          <div class="line line--title" style="width:70%"></div>
+          <div class="line line--80"></div>
+          <div class="line line--60"></div>
+        </div>
+        <div class="row" style="margin-top:10px"><input class="input" placeholder="Enter your area / pincode" style="flex:2"><button class="btn btn--primary">Find food</button></div>
+        <div class="grid-3" style="margin-top:12px">
+          <div class="box box--img"><span>step 1<br>browse</span></div>
+          <div class="box box--img"><span>step 2<br>order</span></div>
+          <div class="box box--img"><span>step 3<br>delivered</span></div>
+        </div>
+        <div class="card__title" style="margin-top:12px">Featured restaurants</div>
+        <div class="grid-4" style="margin-top:6px">
+          <div class="card"><div class="box box--img"></div><div class="line" style="margin-top:6px"></div><div class="tiny muted">4.6 - 25 min - Rs 20 fee</div></div>
+          <div class="card"><div class="box box--img"></div><div class="line" style="margin-top:6px"></div><div class="tiny muted">4.4 - 30 min - Rs 25 fee</div></div>
+          <div class="card"><div class="box box--img"></div><div class="line" style="margin-top:6px"></div><div class="tiny muted">4.7 - 20 min - Rs 15 fee</div></div>
+          <div class="card"><div class="box box--img"></div><div class="line" style="margin-top:6px"></div><div class="tiny muted">4.3 - 35 min - Rs 30 fee</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Browsing is public. Login is asked only when the customer tries to checkout, never before - this reduces drop-off on the landing page.</li>
+    <li><span class="anno">2</span> The search box resolves to a pincode/location, not free text; this keeps the simulated road-network lookup meaningful.</li>
+    <li><span class="anno">3</span> Featured restaurants are ranked by a published rule (rating then delivery time), not by a hidden sort.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton cards in the grid</div>
+    <div class="state"><b>Empty</b>no restaurants in this area - show "We are expanding"</div>
+    <div class="state"><b>Error</b>retry button + support link</div>
+  </div>
+</section>
+
+<!-- ================= 02 Login ================= -->
+<section class="screen" id="s02">
+  <div class="screen__head"><span class="screen__id">02</span><span class="screen__name">Login</span><span class="screen__role">Public</span><div class="screen__route">/login</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/login</span></div>
+    <div class="device__body">
+      <div class="grid-2" style="min-height:360px">
+        <div class="col" style="justify-content:center;padding:20px">
+          <div class="line line--title" style="width:60%"></div>
+          <div class="field"><label class="label">Email</label><input class="input" placeholder="you@example.com"></div>
+          <div class="field"><label class="label">Password</label><input class="input" placeholder="********" type="password"></div>
+          <div class="row row--between"><label class="tiny muted"><input type="checkbox"> Show password</label><a class="tiny">Forgot password?</a></div>
+          <button class="btn btn--primary btn--block">Log in</button>
+          <div class="tiny muted" style="text-align:center;margin-top:8px">New here? <a>Create an account</a></div>
+        </div>
+        <div class="box box--hero" style="margin:12px"><span>brand panel - tagline + illustration</span></div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> A failed login returns one generic message ("Email or password is incorrect"). The response never reveals which field was wrong.</li>
+    <li><span class="anno">2</span> After 5 failed attempts from one IP in 5 minutes the account is temporarily locked (custom token bucket).</li>
+    <li><span class="anno">3</span> On success the access token is held in memory and a refresh token is stored in an HttpOnly cookie.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Validation</b>"Email is required", "Password must be at least 8 characters"</div>
+    <div class="state"><b>401</b>single inline alert above the form</div>
+    <div class="state"><b>429</b>lockout message with retry-after time</div>
+  </div>
+</section>
+
+<!-- ================= 03 Register ================= -->
+<section class="screen" id="s03">
+  <div class="screen__head"><span class="screen__id">03</span><span class="screen__name">Register</span><span class="screen__role">Public</span><div class="screen__route">/register</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/register</span></div>
+    <div class="device__body">
+      <div class="col" style="padding:16px;max-width:420px;margin:0 auto">
+        <div class="line line--title" style="width:60%"></div>
+        <div class="field"><label class="label">Full name</label><input class="input" placeholder="Ayush Ekka"></div>
+        <div class="field"><label class="label">Email</label><input class="input" placeholder="you@example.com"></div>
+        <div class="field"><label class="label">Phone</label><input class="input" placeholder="+91 9XXXXXXXXX"></div>
+        <div class="field"><label class="label">Password</label><input class="input" placeholder="********" type="password"></div>
+        <div class="field"><label class="label">Confirm password</label><input class="input" placeholder="********" type="password"></div>
+        <div class="card__title" style="margin-top:6px">I am a</div>
+        <div class="grid-3">
+          <div class="card" style="text-align:center"><div class="line" style="margin-bottom:4px"></div><div class="tiny muted">Customer</div></div>
+          <div class="card" style="text-align:center"><div class="line" style="margin-bottom:4px"></div><div class="tiny muted">Restaurant</div></div>
+          <div class="card" style="text-align:center"><div class="line" style="margin-bottom:4px"></div><div class="tiny muted">Delivery partner</div></div>
+        </div>
+        <button class="btn btn--primary btn--block" style="margin-top:10px">Create account</button>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Restaurant and delivery-partner accounts are created in PENDING status and cannot log in to their dashboard until an admin approves them.</li>
+    <li><span class="anno">2</span> Password rules: at least 8 characters, one upper-case letter, one digit. Validated on both client and server.</li>
+    <li><span class="anno">3</span> Duplicate email or phone returns 409 with a field-level error, not a generic failure.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Validation</b>field errors under each input</div>
+    <div class="state"><b>409</b>"This email is already registered"</div>
+  </div>
+</section>
+
+<!-- ================= 04 Discovery ================= -->
+<section class="screen" id="s04">
+  <div class="screen__head"><span class="screen__id">04</span><span class="screen__name">Restaurant discovery</span><span class="screen__role">Customer</span><div class="screen__route">/restaurants</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurants?cuisine=biryani&amp;sort=rating</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><input class="input" placeholder="Search restaurants or dishes" style="flex:1;max-width:280px"><span class="appbar__spacer"></span><button class="btn btn--sm">Cart (2)</button></div>
+      <div class="shell">
+        <aside class="sidebar" style="width:150px;flex:0 0 150px">
+          <div class="tiny muted" style="margin-bottom:6px">FILTERS</div>
+          <div class="field"><label class="label">Cuisine</label><div class="chip chip--active">Biryani</div><div class="chip">North Indian</div><div class="chip">Chinese</div><div class="chip">South Indian</div></div>
+          <div class="field" style="margin-top:8px"><label class="label">Rating</label><div class="tiny">4.0+ (selected)</div></div>
+          <div class="field" style="margin-top:8px"><label class="label">Price band</label><div class="chip">Rs 100-250</div><div class="chip chip--active">Rs 250-400</div></div>
+          <div class="field" style="margin-top:8px"><label class="tiny"><input type="checkbox" checked> Veg only</label></div>
+          <div class="field"><label class="tiny"><input type="checkbox" checked> Open now</label></div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <div class="tiny muted">42 restaurants</div>
+            <select class="input" style="width:160px"><option>Sort: rating</option></select>
+          </div>
+          <div class="grid-3">
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:70%"></div><div class="tiny muted">North Indian - 4.6 - 25 min</div><div class="tiny muted">Delivery Rs 20 - Rs 150 for two</div></div></div>
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:80%"></div><div class="tiny muted">Biryani - 4.4 - 30 min</div><div class="tiny muted">Delivery Rs 25 - Rs 300 for two</div></div></div>
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:60%"></div><div class="tiny muted">Chinese - 4.2 - 35 min - closed</div><div class="tiny muted">Opens 6:00 PM</div></div></div>
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:75%"></div><div class="tiny muted">South Indian - 4.7 - 20 min</div><div class="tiny muted">Delivery Rs 15 - Rs 200 for two</div></div></div>
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:65%"></div><div class="tiny muted">Desserts - 4.5 - 18 min</div><div class="tiny muted">Delivery Rs 20 - Rs 250 for two</div></div></div>
+            <div class="card"><div class="box box--img"></div><div style="margin-top:6px"><div class="line" style="width:70%"></div><div class="tiny muted">Fast food - 4.1 - 28 min</div><div class="tiny muted">Delivery Rs 30 - Rs 180 for two</div></div></div>
+          </div>
+          <div class="row" style="margin-top:10px;justify-content:center"><button class="btn btn--sm">Prev</button><span class="tiny muted">Page 1 of 3</span><button class="btn btn--sm">Next</button></div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Filters are URL query parameters, so a filtered view can be shared or bookmarked.</li>
+    <li><span class="anno">2</span> Sorting runs on the server (rating, delivery time, price, relevance) with a documented fallback when the sort field ties.</li>
+    <li><span class="anno">3</span> Closed restaurants stay visible with their opening time so the customer can plan ahead; they cannot be added to the cart.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton cards in the grid</div>
+    <div class="state"><b>Empty</b>"No restaurants match these filters" with a reset-filters button</div>
+    <div class="state"><b>Error</b>retry button plus a support link</div>
+  </div>
+</section>
+
+<!-- ================= 05 Detail + menu ================= -->
+<section class="screen" id="s05">
+  <div class="screen__head"><span class="screen__id">05</span><span class="screen__name">Restaurant detail + menu</span><span class="screen__role">Customer</span><div class="screen__route">/restaurants/:restaurantId</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/restaurants/12</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Cart (2)</button></div>
+      <div style="padding:12px">
+        <div class="box box--hero"><span>restaurant cover photo</span></div>
+        <div class="row row--between" style="margin-top:8px">
+          <div><div class="line line--title" style="width:160px"></div><div class="tiny muted">North Indian - Biryani - Desserts</div></div>
+          <div class="kpi" style="min-width:120px"><div class="kpi__label">Rating</div><div class="kpi__value">4.6 (1.2k)</div></div>
+        </div>
+        <div class="row" style="margin-top:6px;gap:12px"><span class="tiny muted">Open until 11:00 PM</span><span class="tiny muted">30 min</span><span class="tiny muted">Delivery Rs 25</span><span class="tiny muted">Rs 150 for two</span></div>
+        <div class="row" style="margin-top:10px;gap:6px"><span class="chip chip--active">Starters</span><span class="chip">Main course</span><span class="chip">Biryani</span><span class="chip">Breads</span><span class="chip">Desserts</span><span class="chip">Beverages</span></div>
+        <div class="col" style="margin-top:10px;gap:6px">
+          <div class="card row row--between"><div class="col" style="gap:2px"><div class="line" style="width:140px"></div><div class="tiny muted">Paneer tikka - marinated cottage cheese</div><div class="tiny">Rs 220</div></div><button class="btn btn--primary btn--sm">ADD</button></div>
+          <div class="card row row--between"><div class="col" style="gap:2px"><div class="line" style="width:160px"></div><div class="tiny muted">Chicken tikka - tandoor roasted</div><div class="tiny">Rs 260</div></div><button class="btn btn--primary btn--sm">ADD</button></div>
+          <div class="card row row--between" style="opacity:0.5"><div class="col" style="gap:2px"><div class="line" style="width:150px"></div><div class="tiny muted">Mutton seekh kebab - currently unavailable</div><div class="tiny">Rs 320</div></div><button class="btn btn--sm" disabled>UNAVAILABLE</button></div>
+          <div class="card row row--between"><div class="col" style="gap:2px"><div class="line" style="width:130px"></div><div class="tiny muted">Veg spring rolls - crispy fried</div><div class="tiny">Rs 180</div></div><button class="btn btn--primary btn--sm">ADD</button></div>
+          <div class="card row row--between"><div class="col" style="gap:2px"><div class="line" style="width:170px"></div><div class="tiny muted">Tandoori mushroom - stuffed</div><div class="tiny">Rs 240</div></div><button class="btn btn--primary btn--sm">ADD</button></div>
+        </div>
+      </div>
+      <div style="position:sticky;bottom:0;background:#fff;border-top:1px solid #E3E7EB;padding:10px 12px" class="row row--between"><span class="tiny">Cart: 2 items - Rs 440</span><button class="btn btn--primary btn--sm">View cart</button></div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Unavailable items are still listed so the customer can see them, but cannot be added; the backend rejects the request with 409.</li>
+    <li><span class="anno">2</span> The cart is single-restaurant. Adding an item from a different restaurant opens a confirm dialog ("Replace cart?").</li>
+    <li><span class="anno">3</span> Prices shown are the current menu price; the order stores a snapshot at checkout, so later edits do not change this order.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows in the menu</div>
+    <div class="state"><b>Empty</b>"No items in this category"</div>
+    <div class="state"><b>Error</b>restaurant not found / not approved</div>
+  </div>
+</section>
+
+<!-- ================= 06 Cart ================= -->
+<section class="screen" id="s06">
+  <div class="screen__head"><span class="screen__id">06</span><span class="screen__name">Cart</span><span class="screen__role">Customer</span><div class="screen__route">/cart</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/cart</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Cart (3)</button></div>
+      <div style="padding:12px">
+        <div class="card__title">Your cart - Spice Route</div>
+        <div class="card row row--between" style="margin-bottom:6px"><div class="col" style="gap:2px"><div class="line" style="width:140px"></div><div class="tiny muted">Rs 220 x 2</div></div><div class="row"><button class="btn btn--sm">-</button><span class="tiny" style="margin:0 6px">2</span><button class="btn btn--sm">+</button><button class="btn btn--sm btn--danger" style="margin-left:6px">remove</button></div></div>
+        <div class="card row row--between" style="margin-bottom:6px"><div class="col" style="gap:2px"><div class="line" style="width:160px"></div><div class="tiny muted">Rs 260 x 1</div></div><div class="row"><button class="btn btn--sm">-</button><span class="tiny" style="margin:0 6px">1</span><button class="btn btn--sm">+</button><button class="btn btn--sm btn--danger" style="margin-left:6px">remove</button></div></div>
+        <div class="card row row--between" style="margin-bottom:6px"><div class="col" style="gap:2px"><div class="line" style="width:130px"></div><div class="tiny muted">Rs 180 x 1</div></div><div class="row"><button class="btn btn--sm">-</button><span class="tiny" style="margin:0 6px">1</span><button class="btn btn--sm">+</button><button class="btn btn--sm btn--danger" style="margin-left:6px">remove</button></div></div>
+        <div class="row" style="margin:10px 0"><button class="btn btn--sm">+ Add more items from Spice Route</button></div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="card__title">Coupon</div>
+          <div class="row"><input class="input" placeholder="Enter coupon code"><button class="btn btn--sm">Apply</button></div>
+          <div class="row" style="margin-top:6px"><span class="chip chip--active">FIRST50 - Rs 50 off</span><button class="btn btn--sm btn--danger">remove</button></div>
+        </div>
+        <div class="card">
+          <div class="card__title">Price breakdown</div>
+          <div class="row row--between"><span class="tiny">Item total</span><span class="tiny">Rs 860.00</span></div>
+          <div class="row row--between"><span class="tiny">Discount (FIRST50)</span><span class="tiny">- Rs 50.00</span></div>
+          <div class="row row--between"><span class="tiny">Tax (5%)</span><span class="tiny">Rs 40.50</span></div>
+          <div class="row row--between"><span class="tiny">Delivery fee</span><span class="tiny">Rs 25.00</span></div>
+          <div class="divider"></div>
+          <div class="row row--between"><span style="font-weight:600">Grand total</span><span style="font-weight:600">Rs 875.50</span></div>
+        </div>
+        <button class="btn btn--primary btn--block" style="margin-top:10px">Proceed to checkout</button>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Quantity steppers disable at 1 and 10; changing quantity re-runs availability and price on the server.</li>
+    <li><span class="anno">2</span> Coupon validation checks min order, expiry, global usage, per-user usage, max cap and first-order-only. A rejected coupon shows the reason inline.</li>
+    <li><span class="anno">3</span> An empty cart shows an empty state with a "Browse restaurants" CTA instead of this screen.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton lines for each item</div>
+    <div class="state"><b>Empty</b>empty-cart illustration + CTA</div>
+    <div class="state"><b>Error</b>"Some items are no longer available" with a refresh button</div>
+  </div>
+</section>
+
+<!-- ================= 07 Checkout ================= -->
+<section class="screen" id="s07">
+  <div class="screen__head"><span class="screen__id">07</span><span class="screen__name">Checkout</span><span class="screen__role">Customer</span><div class="screen__route">/checkout</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/checkout</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Back to cart</button></div>
+      <div class="grid-2" style="padding:12px">
+        <div class="col">
+          <div class="card">
+            <div class="card__title">Delivery address</div>
+            <div class="card row row--between" style="margin-bottom:6px"><div><div class="tiny" style="font-weight:600">Home (default)</div><div class="tiny muted">Flat 402, Green Meadows, Patia, Bhubaneswar 751024</div></div><input type="radio" checked></div>
+            <div class="card row row--between" style="margin-bottom:6px"><div><div class="tiny" style="font-weight:600">Work</div><div class="tiny muted">Tech Park, Infocity, Bhubaneswar 751024</div></div><input type="radio"></div>
+            <button class="btn btn--sm">+ Add new address</button>
+          </div>
+          <div class="card" style="margin-top:8px">
+            <div class="card__title">Payment method</div>
+            <div class="row" style="margin-bottom:6px"><input type="radio" checked><span class="tiny">Cash on delivery</span></div>
+            <div class="row"><input type="radio"><span class="tiny">Pay online (sandbox)</span></div>
+            <div class="field" style="margin-top:8px"><label class="label">Delivery instructions</label><input class="input" placeholder="Ring the bell twice"></div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="card">
+            <div class="card__title">Order summary - Spice Route</div>
+            <div class="tiny muted" style="margin-bottom:6px">3 items</div>
+            <div class="row row--between"><span class="tiny">Paneer tikka x2</span><span class="tiny">Rs 440.00</span></div>
+            <div class="row row--between"><span class="tiny">Chicken tikka x1</span><span class="tiny">Rs 260.00</span></div>
+            <div class="row row--between"><span class="tiny">Veg spring rolls x1</span><span class="tiny">Rs 180.00</span></div>
+            <div class="divider"></div>
+            <div class="row row--between"><span class="tiny">Discount (FIRST50)</span><span class="tiny">- Rs 50.00</span></div>
+            <div class="row row--between"><span class="tiny">Tax (5%)</span><span class="tiny">Rs 40.50</span></div>
+            <div class="row row--between"><span class="tiny">Delivery fee</span><span class="tiny">Rs 25.00</span></div>
+            <div class="divider"></div>
+            <div class="row row--between"><span style="font-weight:600">Total</span><span style="font-weight:600">Rs 875.50</span></div>
+            <button class="btn btn--primary btn--block" style="margin-top:10px">Place order</button>
+            <div class="tiny muted" style="margin-top:6px;text-align:center">All amounts are recomputed on the server before the order is created.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The address shown is a snapshot of the selected address at order time; later address edits do not affect this order.</li>
+    <li><span class="anno">2</span> "Place order" disables and shows a spinner while the request is in flight to prevent a double submit.</li>
+    <li><span class="anno">3</span> Payment failures keep the order in PLACED with a retry window; they never create a duplicate order (idempotency key).</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Validation</b>address not selected / no payment method</div>
+    <div class="state"><b>409</b>an item went out of stock between cart and checkout</div>
+    <div class="state"><b>Permission</b>restaurant closed or suspended</div>
+  </div>
+</section>
+
+<!-- ================= 08 Confirmation ================= -->
+<section class="screen" id="s08">
+  <div class="screen__head"><span class="screen__id">08</span><span class="screen__name">Order confirmation</span><span class="screen__role">Customer</span><div class="screen__route">/orders/:orderId/confirmation</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/orders/4182/confirmation</span></div>
+    <div class="device__body">
+      <div class="col" style="align-items:center;padding:30px 16px">
+        <svg width="56" height="56" viewBox="0 0 56 56"><circle cx="28" cy="28" r="26" fill="none" stroke="#1F2933" stroke-width="2"/><path d="M16 29 L24 37 L40 21" fill="none" stroke="#1F2933" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <div class="line line--title" style="width:220px;margin-top:12px"></div>
+        <div class="tiny muted" style="margin-top:4px">Order FD-2026-004182</div>
+        <div class="card" style="margin-top:14px;width:100%;max-width:360px">
+          <div class="row row--between"><span class="tiny">Restaurant</span><span class="tiny" style="font-weight:600">Spice Route</span></div>
+          <div class="row row--between"><span class="tiny">Estimated delivery</span><span class="tiny" style="font-weight:600">32-40 min</span></div>
+          <div class="row row--between"><span class="tiny">Payment</span><span class="tiny">Cash on delivery - Rs 875.50</span></div>
+          <div class="row row--between"><span class="tiny">Status</span><span class="badge">PLACED</span></div>
+        </div>
+        <div class="row" style="margin-top:14px;gap:8px">
+          <button class="btn btn--primary">Track order</button>
+          <button class="btn">Back to restaurants</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Shown only once, right after a successful POST /orders. Refreshing this URL redirects to the tracking screen.</li>
+    <li><span class="anno">2</span> The order number format is FD-YYYY-NNNNNN and is generated server-side.</li>
+  </ul>
+</section>
+
+<!-- ================= 09 Tracking (phone) ================= -->
+<section class="screen" id="s09">
+  <div class="screen__head"><span class="screen__id">09</span><span class="screen__name">Order tracking</span><span class="screen__role">Customer</span><div class="screen__route">/orders/:orderId/track</div></div>
+  <div class="device device--phone">
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><span class="badge">LIVE</span></div>
+      <div style="padding:10px">
+        <div class="row row--between"><span class="tiny" style="font-weight:600">FD-2026-004182</span><span class="tiny muted">Spice Route</span></div>
+        <div class="steps" style="margin:8px 0"><div class="step step--done"></div><div class="step step--done"></div><div class="step step--active"></div><div class="step"></div></div>
+        <div class="row row--between tiny muted"><span>Placed</span><span>Preparing</span><span>On the way</span><span>Delivered</span></div>
+        <div class="box box--map" style="margin-top:10px"><span>simulated route - Dijkstra shortest path</span></div>
+        <div class="card" style="margin-top:8px">
+          <div class="card__title">Delivery partner</div>
+          <div class="row"><div class="box" style="width:32px;height:32px;border-radius:50%">A</div><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Rakesh Nayak</div><div class="tiny muted">Bike OD-02-AB-4412 - 4.8 rating</div></div><span class="appbar__spacer"></span><button class="btn btn--sm">Call</button></div>
+        </div>
+        <div class="card" style="margin-top:8px">
+          <div class="card__title">Status timeline</div>
+          <div class="timeline">
+            <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Order placed</div><div class="tiny muted">7:38 PM</div></div>
+            <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Accepted by restaurant</div><div class="tiny muted">7:40 PM</div></div>
+            <div class="timeline__item timeline__item--done"><div class="tiny" style="font-weight:600">Preparing</div><div class="tiny muted">7:42 PM</div></div>
+            <div class="timeline__item"><div class="tiny" style="font-weight:600">Ready for pickup</div><div class="tiny muted">expected 7:55 PM</div></div>
+          </div>
+        </div>
+        <div class="card" style="margin-top:8px">
+          <div class="card__title">Order summary (tap to expand)</div>
+          <div class="tiny muted">3 items - Rs 875.50 - Cash on delivery</div>
+        </div>
+        <div class="row" style="margin-top:8px"><button class="btn btn--sm" style="flex:1">Need help?</button><button class="btn btn--sm btn--danger" style="flex:1">Cancel order</button></div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The map is a simulated road network rendered from the seeded graph. It is never presented as GPS navigation.</li>
+    <li><span class="anno">2</span> Updates arrive over WebSocket. If the socket drops, the client falls back to polling every 10 seconds and shows a "reconnecting" badge.</li>
+    <li><span class="anno">3</span> Cancel is shown only while the status is PLACED or CONFIRMED; it is removed (not just disabled) afterwards.</li>
+    <li><span class="anno">4</span> The partner's phone number is masked until the order is ASSIGNED.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton for the stepper and map</div>
+    <div class="state"><b>Terminal</b>delivered variant shows a "Rate your order" CTA; cancelled shows the reason</div>
+    <div class="state"><b>Error</b>"Could not reach the server - retrying" banner</div>
+  </div>
+</section>
+
+<!-- ================= 10 History ================= -->
+<section class="screen" id="s10">
+  <div class="screen__head"><span class="screen__id">10</span><span class="screen__name">Order history</span><span class="screen__role">Customer</span><div class="screen__route">/orders</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/orders</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Profile</button></div>
+      <div style="padding:12px">
+        <div class="row" style="margin-bottom:10px;gap:6px"><span class="chip chip--active">All</span><span class="chip">Active</span><span class="chip">Delivered</span><span class="chip">Cancelled</span></div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Spice Route</div><div class="tiny muted">30 Oct 2026, 7:38 PM - 3 items</div></div><div class="col" style="align-items:flex-end;gap:0"><span class="badge" style="background:#D97706;color:#fff">PREPARING</span><div class="tiny" style="font-weight:600;margin-top:4px">Rs 875.50</div></div></div>
+          <div class="row" style="margin-top:8px"><button class="btn btn--sm btn--primary">Track</button><button class="btn btn--sm btn--danger">Cancel</button></div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Biryani Junction</div><div class="tiny muted">28 Oct 2026, 1:12 PM - 2 items</div></div><div class="col" style="align-items:flex-end;gap:0"><span class="badge" style="background:#16A34A;color:#fff">DELIVERED</span><div class="tiny" style="font-weight:600;margin-top:4px">Rs 640.00</div></div></div>
+          <div class="row" style="margin-top:8px"><button class="btn btn--sm">Re-order</button><button class="btn btn--sm btn--primary">Rate order</button></div>
+        </div>
+        <div class="card" style="margin-bottom:8px">
+          <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Green Bowl</div><div class="tiny muted">27 Oct 2026, 8:05 PM - 1 item</div></div><div class="col" style="align-items:flex-end;gap:0"><span class="badge" style="background:#DC2626;color:#fff">CANCELLED</span><div class="tiny" style="font-weight:600;margin-top:4px">Rs 210.00</div></div></div>
+          <div class="row" style="margin-top:8px"><button class="btn btn--sm">Re-order</button><button class="btn btn--sm">View reason</button></div>
+        </div>
+        <div class="card">
+          <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Tandoor Nights</div><div class="tiny muted">25 Oct 2026, 9:20 PM - 4 items</div></div><div class="col" style="align-items:flex-end;gap:0"><span class="badge" style="background:#16A34A;color:#fff">DELIVERED</span><div class="tiny" style="font-weight:600;margin-top:4px">Rs 1,120.00</div></div></div>
+          <div class="row" style="margin-top:8px"><button class="btn btn--sm">Re-order</button><button class="btn btn--sm">View receipt</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Re-order re-validates availability and current prices; out-of-stock items are dropped with a notice.</li>
+    <li><span class="anno">2</span> "Rate order" appears only on DELIVERED orders with no existing review.</li>
+    <li><span class="anno">3</span> Cancel is shown only for PLACED or CONFIRMED orders and opens a confirm dialog.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton order cards</div>
+    <div class="state"><b>Empty</b>"No orders yet" with a browse CTA</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= 11 Profile ================= -->
+<section class="screen" id="s11">
+  <div class="screen__head"><span class="screen__id">11</span><span class="screen__name">Profile</span><span class="screen__role">Customer</span><div class="screen__route">/profile</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/profile</span></div>
+    <div class="device__body">
+      <div class="appbar"><span class="appbar__brand">SmartBite</span><span class="appbar__spacer"></span><button class="btn btn--sm">Cart (2)</button></div>
+      <div style="padding:12px">
+        <div class="row" style="gap:4px;margin-bottom:10px"><span class="chip">Personal details</span><span class="chip chip--active">Addresses</span><span class="chip">Security</span></div>
+        <div class="row row--between" style="margin-bottom:8px"><div class="card__title" style="margin:0">Saved addresses</div><button class="btn btn--primary btn--sm">+ Add address</button></div>
+        <div class="card row row--between" style="margin-bottom:6px"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Home (default)</div><div class="tiny muted">Flat 402, Green Meadows, Patia, Bhubaneswar 751024</div><div class="tiny muted">Lat 20.3547, Lng 85.8189 - node 14</div></div><div class="row"><button class="btn btn--sm">Edit</button><button class="btn btn--sm btn--danger">Delete</button></div></div>
+        <div class="card row row--between" style="margin-bottom:6px"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Work</div><div class="tiny muted">Tech Park, Infocity, Bhubaneswar 751024</div></div><div class="row"><button class="btn btn--sm">Edit</button><button class="btn btn--sm btn--danger">Delete</button></div></div>
+        <div class="card row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Other</div><div class="tiny muted">Saheed Nagar, Bhubaneswar 751007</div></div><div class="row"><button class="btn btn--sm">Edit</button><button class="btn btn--sm btn--danger">Delete</button></div></div>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> An address can be marked default; the checkout screen pre-selects it.</li>
+    <li><span class="anno">2</span> Deleting an address never alters past orders, because every order stores an address snapshot (JSON).</li>
+    <li><span class="anno">3</span> The graph node id is stored on the address so the delivery route can be computed even after the address is edited.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Empty</b>"No saved addresses yet" with an add CTA</div>
+    <div class="state"><b>Permission</b>only the owner can edit or delete</div>
+  </div>
+</section>
+
+<!-- ================= 12 Review ================= -->
+<section class="screen" id="s12">
+  <div class="screen__head"><span class="screen__id">12</span><span class="screen__name">Review a delivered order</span><span class="screen__role">Customer</span><div class="screen__route">/orders/:orderId/review</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/orders/4182/review</span></div>
+    <div class="device__body">
+      <div class="col" style="align-items:center;padding:24px 16px">
+        <div class="tiny muted">Reviewing order FD-2026-004182</div>
+        <div class="line line--title" style="width:180px;margin-top:4px"></div>
+        <div class="tiny muted">Spice Route</div>
+        <div class="row" style="margin-top:12px;gap:4px">
+          <span style="font-size:20px">*</span><span style="font-size:20px">*</span><span style="font-size:20px">*</span><span style="font-size:20px">*</span><span style="font-size:20px;color:#C7CDD4">*</span>
+        </div>
+        <div class="tiny muted" style="margin-top:4px">Tap a star - 4 of 5 selected</div>
+        <div class="row" style="margin-top:10px;gap:6px;flex-wrap:wrap;justify-content:center">
+          <span class="chip chip--active">Tasty</span><span class="chip">Well packed</span><span class="chip chip--active">On time</span><span class="chip">Good portion</span><span class="chip">Value for money</span>
+        </div>
+        <textarea class="input" placeholder="Tell others what you liked (optional)" style="margin-top:10px;min-height:70px;width:100%;max-width:360px"></textarea>
+        <div class="tiny muted" style="text-align:right;width:100%;max-width:360px">0 / 500</div>
+        <button class="btn btn--primary" style="margin-top:10px">Submit review</button>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> A review is allowed only for a DELIVERED order and only once per order (unique constraint on order_id).</li>
+    <li><span class="anno">2</span> Submitting updates the restaurant's rolling average rating and review count in the same transaction.</li>
+    <li><span class="anno">3</span> The form cannot be submitted without at least a star rating.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Validation</b>"Please select a rating"</div>
+    <div class="state"><b>409</b>"You have already reviewed this order"</div>
+  </div>
+</section>
+
+  </div>
+</div>
+</body>
+</html>

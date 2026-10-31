@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes - Delivery</title>
+  <link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<div class="board">
+  <h1 class="board__title">Delivery partner screens - low-fidelity wireframes</h1>
+  <p class="board__sub">Smart Food Delivery Management System - Phase 2 - v1, for review</p>
+  <p class="board__meta">Grayscale on purpose. Annotations (<span class="anno">1</span>) explain behaviour. The map is a simulated road network, never GPS.</p>
+  <div class="screens">
+
+<!-- ================= d1 Dashboard ================= -->
+<section class="screen" id="d1">
+  <div class="screen__head"><span class="screen__id">D1</span><span class="screen__name">Partner dashboard</span><span class="screen__role">Partner</span><div class="screen__route">/partner</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/partner</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item sidebar__item--active">Dashboard</div>
+          <div class="sidebar__item">Assignments (1)</div>
+          <div class="sidebar__item">History</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:10px">
+            <div class="line line--title" style="width:160px"></div>
+            <div class="row" style="gap:6px"><span class="tiny">You are</span><span class="chip chip--active">Online</span><span class="chip">Offline</span></div>
+          </div>
+          <div class="grid-4" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">Earnings today</div><div class="kpi__value">Rs 640</div></div>
+            <div class="kpi"><div class="kpi__label">Deliveries</div><div class="kpi__value">12</div></div>
+            <div class="kpi"><div class="kpi__label">Rating</div><div class="kpi__value">4.8</div></div>
+            <div class="kpi"><div class="kpi__label">Acceptance</div><div class="kpi__value">92%</div></div>
+          </div>
+          <div class="card" style="margin-bottom:8px">
+            <div class="card__title">Current assignment - action required</div>
+            <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Spice Route -> Ayush Ekka</div><div class="tiny muted">3.2 km - 14 min - payout Rs 38</div></div><div class="row" style="gap:6px"><button class="btn btn--sm btn--primary">Open route</button><button class="btn btn--sm">Mark picked up</button></div></div>
+          </div>
+          <div class="card">
+            <div class="card__title">Last 3 completed</div>
+            <div class="row row--between"><span class="tiny">Biryani Junction - 2.1 km</span><span class="tiny">Rs 32 - on time</span></div>
+            <div class="row row--between"><span class="tiny">Green Bowl - 4.0 km</span><span class="tiny">Rs 45 - on time</span></div>
+            <div class="row row--between"><span class="tiny">Tandoor Nights - 1.6 km</span><span class="tiny">Rs 33 - late 4 min</span></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Toggling offline removes the partner from the dispatch candidate set immediately; an in-flight assignment is unaffected.</li>
+    <li><span class="anno">2</span> The partner cannot be online in two sessions at once; the second login forces the first offline.</li>
+    <li><span class="anno">3</span> Earnings accrue only after the order reaches DELIVERED.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton KPI cards</div>
+    <div class="state"><b>Empty</b>"No deliveries yet - go online to receive offers"</div>
+    <div class="state"><b>Permission</b>account not approved yet</div>
+  </div>
+</section>
+
+<!-- ================= d2 Available assignments ================= -->
+<section class="screen" id="d2">
+  <div class="screen__head"><span class="screen__id">D2</span><span class="screen__name">Available assignments</span><span class="screen__role">Partner</span><div class="screen__route">/partner/assignments</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/partner/assignments</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item sidebar__item--active">Assignments (1)</div>
+          <div class="sidebar__item">History</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="card" style="margin-bottom:8px;background:#F3F6FA;border-color:#C7D2E0">
+            <div class="tiny" style="font-weight:600">How offers are ranked</div>
+            <div class="tiny muted">Offers are already ordered by the dispatch engine: SLA risk first, then pickup ETA (Dijkstra distance), then current load, then order age, with partner id as the final tie-break. Declining an offer does not penalise the partner.</div>
+          </div>
+          <div class="card" style="margin-bottom:8px;border-left:3px solid #9B2C2C">
+            <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Spice Route -> Ayush Ekka</div><div class="tiny muted">3.2 km - 14 min - payout Rs 38</div></div><span class="badge badge--danger">SLA at risk</span></div>
+            <div class="row" style="margin-top:6px;gap:6px"><button class="btn btn--primary btn--sm">Accept (87s)</button><button class="btn btn--sm btn--danger">Decline</button></div>
+          </div>
+          <div class="card" style="margin-bottom:8px">
+            <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Biryani Junction -> Meera Patel</div><div class="tiny muted">4.1 km - 18 min - payout Rs 42</div></div><span class="badge">OPEN</span></div>
+            <div class="row" style="margin-top:6px;gap:6px"><button class="btn btn--primary btn--sm">Accept (90s)</button><button class="btn btn--sm btn--danger">Decline</button></div>
+          </div>
+          <div class="card">
+            <div class="row row--between"><div class="col" style="gap:0"><div class="tiny" style="font-weight:600">Green Bowl -> Rohan Das</div><div class="tiny muted">1.8 km - 9 min - payout Rs 33</div></div><span class="badge">OPEN</span></div>
+            <div class="row" style="margin-top:6px;gap:6px"><button class="btn btn--primary btn--sm">Accept (90s)</button><button class="btn btn--sm btn--danger">Decline</button></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The 90-second countdown is enforced on the server; an expired offer is removed and re-dispatched to the next candidate.</li>
+    <li><span class="anno">2</span> Accepting is an atomic claim: if two partners tap at the same instant, only one wins (optimistic lock).</li>
+    <li><span class="anno">3</span> Declining does not reduce the partner's rating or acceptance score.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton offer cards</div>
+    <div class="state"><b>Empty</b>"No offers right now - stay online"</div>
+    <div class="state"><b>Error</b>"Could not load offers - retrying"</div>
+  </div>
+</section>
+
+<!-- ================= d3 Active delivery ================= -->
+<section class="screen" id="d3">
+  <div class="screen__head"><span class="screen__id">D3</span><span class="screen__name">Active delivery + route</span><span class="screen__role">Partner</span><div class="screen__route">/partner/deliveries/:assignmentId</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/partner/deliveries/88</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item sidebar__item--active">Assignments (1)</div>
+          <div class="sidebar__item">History</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="steps" style="margin-bottom:8px"><div class="step step--done"></div><div class="step step--active"></div><div class="step"></div><div class="step"></div></div>
+          <div class="tiny muted" style="margin-bottom:8px">Accepted - Picked up - On the way - Delivered</div>
+          <div class="grid-2">
+            <div class="col">
+              <div class="card">
+                <div class="card__title">Pickup - Spice Route</div>
+                <div class="tiny muted">Plot 12, Infocity Square, Bhubaneswar</div>
+                <div class="tiny muted">Contact: +91 9XXXX XXXXX</div>
+              </div>
+              <div class="card" style="margin-top:8px">
+                <div class="card__title">Drop - Ayush Ekka</div>
+                <div class="tiny muted">Flat 402, Green Meadows, Patia, Bhubaneswar 751024</div>
+                <div class="tiny muted">Instructions: Ring the bell twice</div>
+              </div>
+              <div class="card" style="margin-top:8px">
+                <div class="card__title">Order details</div>
+                <div class="tiny">3 items - Rs 875.50</div>
+                <div class="tiny" style="font-weight:600;margin-top:4px">Collect cash: Rs 875.50 (COD)</div>
+              </div>
+              <div class="row" style="margin-top:10px;gap:6px">
+                <button class="btn btn--primary" style="flex:1">Mark picked up</button>
+                <button class="btn btn--sm">Call customer</button>
+              </div>
+            </div>
+            <div class="col">
+              <div class="card" style="padding:0;overflow:hidden">
+                <div class="box box--map" style="border:none;border-radius:0">
+                  <svg width="100%" height="190" viewBox="0 0 300 190" preserveAspectRatio="none">
+                    <polyline points="30,160 80,120 130,135 180,90 230,105 270,55" fill="none" stroke="#1F2933" stroke-width="2" stroke-dasharray="4 3"/>
+                    <circle cx="30" cy="160" r="5" fill="#1F2933"/><circle cx="270" cy="55" r="5" fill="#9B2C2C"/>
+                    <text x="20" y="178" font-size="9" fill="#6B7480">restaurant (node 14)</text>
+                    <text x="220" y="45" font-size="9" fill="#6B7480">customer (node 22)</text>
+                  </svg>
+                </div>
+                <div class="tiny muted" style="padding:8px">Simulated road network - Dijkstra shortest path - 3.2 km - 14 min. Route frozen at assignment time.</div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The route is computed once, at assignment, and stored on the delivery assignment. Later graph edits do not change an in-flight route.</li>
+    <li><span class="anno">2</span> The action button advances exactly one state at a time; later states are not rendered.</li>
+    <li><span class="anno">3</span> "Mark delivered" is available only after OUT_FOR_DELIVERY and settles COD payments.</li>
+    <li><span class="anno">4</span> The map is a seeded, simulated network and is labelled as such. It is never presented as GPS navigation.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton blocks</div>
+    <div class="state"><b>Error</b>"Could not load route" with a fallback ETA</div>
+  </div>
+</section>
+
+<!-- ================= d4 History ================= -->
+<section class="screen" id="d4">
+  <div class="screen__head"><span class="screen__id">D4</span><span class="screen__name">Delivery history</span><span class="screen__role">Partner</span><div class="screen__route">/partner/history</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/partner/history</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Assignments (1)</div>
+          <div class="sidebar__item sidebar__item--active">History</div>
+          <div class="sidebar__item">Profile</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:6px;margin-bottom:10px"><span class="chip chip--active">Today</span><span class="chip">This week</span><span class="chip">All</span></div>
+          <div class="grid-3" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">Deliveries</div><div class="kpi__value">128</div></div>
+            <div class="kpi"><div class="kpi__label">Earned</div><div class="kpi__value">Rs 4,120</div></div>
+            <div class="kpi"><div class="kpi__label">Avg rating</div><div class="kpi__value">4.8</div></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Date</th><th>Order</th><th>Restaurant</th><th>Distance</th><th>Payout</th><th>On time</th></tr></thead>
+              <tbody>
+                <tr><td>30 Oct</td><td class="mono">FD-2026-004170</td><td>Spice Route</td><td>3.2 km</td><td>Rs 41</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td></tr>
+                <tr><td>30 Oct</td><td class="mono">FD-2026-004165</td><td>Biryani Junction</td><td>4.0 km</td><td>Rs 45</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td></tr>
+                <tr><td>29 Oct</td><td class="mono">FD-2026-004158</td><td>Green Bowl</td><td>1.8 km</td><td>Rs 34</td><td><span class="badge" style="background:#D97706;color:#fff">Late 4 min</span></td></tr>
+                <tr><td>29 Oct</td><td class="mono">FD-2026-004151</td><td>Tandoor Nights</td><td>2.4 km</td><td>Rs 37</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td></tr>
+                <tr><td>28 Oct</td><td class="mono">FD-2026-004144</td><td>Cafe Mocha</td><td>5.1 km</td><td>Rs 50</td><td><span class="badge" style="background:#16A34A;color:#fff">Yes</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">Payout = Rs 25 base + Rs 5 per km, calculated from the stored route distance.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Only DELIVERED assignments appear here; cancelled or declined offers are excluded.</li>
+    <li><span class="anno">2</span> Earnings are credited in the same transaction that marks the order DELIVERED.</li>
+    <li><span class="anno">3</span> Ratings are submitted by the customer after delivery and feed the partner's rolling average.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No completed deliveries yet"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+  </div>
+</div>
+</body>
+</html>

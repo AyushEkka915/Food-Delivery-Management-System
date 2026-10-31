@@ -1,0 +1,136 @@
+/* ============================================================================
+   Smart Food Delivery Management System - Design Tokens
+   Single source of truth for colour, type, spacing, radius, elevation.
+   These custom properties are consumed by the React app (via Tailwind theme)
+   and by any static design artefact. Change a value here, not in components.
+   ========================================================================= */
+
+:root {
+  /* ---- Brand ------------------------------------------------------------ */
+  --brand-50:  #FEF2F3;
+  --brand-100: #FDE2E4;
+  --brand-200: #FBC5C9;
+  --brand-500: #E23744;
+  --brand-600: #D02B38;
+  --brand-700: #B01F2B;
+  --brand-900: #6E1119;
+
+  /* ---- Neutral (ink + surfaces) ----------------------------------------- */
+  --ink-900: #111827;
+  --ink-800: #1C1C1C;
+  --ink-700: #374151;
+  --ink-600: #4B5563;
+  --muted-500: #6B7280;
+  --muted-400: #9CA3AF;
+  --line-200: #E5E7EB;
+  --line-100: #F3F4F6;
+  --surface-0: #FFFFFF;
+  --canvas-50: #F9FAFB;
+  --canvas-100: #F3F4F6;
+
+  /* ---- Semantic ---------------------------------------------------------- */
+  --success-600: #16A34A;
+  --success-50:  #F0FDF4;
+  --warning-600: #D97706;
+  --warning-50:  #FFFBEB;
+  --danger-600:  #DC2626;
+  --danger-50:   #FEF2F2;
+  --info-600:    #2563EB;
+  --info-50:     #EFF6FF;
+
+  /* ---- Order status language (one colour per state, used everywhere) ---- */
+  --status-placed:            #6B7280; /* grey    - waiting for restaurant     */
+  --status-confirmed:         #2563EB; /* blue    - accepted                   */
+  --status-preparing:         #D97706; /* amber   - in the kitchen             */
+  --status-ready-for-pickup:  #7C3AED; /* violet  - waiting for a rider        */
+  --status-assigned:          #4F46E5; /* indigo  - rider allotted             */
+  --status-picked-up:         #0891B2; /* cyan    - food in hand               */
+  --status-out-for-delivery:  #0D9488; /* teal    - on the way                 */
+  --status-delivered:         #16A34A; /* green   - done                       */
+  --status-cancelled:         #DC2626; /* red     - terminal: cancelled        */
+  --status-rejected:          #B91C1C; /* dark red- terminal: refused          */
+
+  /* ---- Typography -------------------------------------------------------- */
+  --font-sans: "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Mono", Consolas, monospace;
+
+  --text-2xs: 11px;
+  --text-xs:  12px;
+  --text-sm:  13px;
+  --text-base:14px;
+  --text-md:  16px;
+  --text-lg:  18px;
+  --text-xl:  20px;
+  --text-2xl: 24px;
+  --text-3xl: 30px;
+  --text-4xl: 36px;
+
+  --leading-tight: 1.2;
+  --leading-snug:  1.35;
+  --leading-normal:1.55;
+
+  --weight-regular: 400;
+  --weight-medium:  500;
+  --weight-semi:    600;
+  --weight-bold:    700;
+
+  /* ---- Spacing: 4px scale ------------------------------------------------ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+
+  /* ---- Radius ------------------------------------------------------------ */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --radius-full: 9999px;
+
+  /* ---- Elevation --------------------------------------------------------- */
+  --shadow-xs: 0 1px 2px rgba(17, 24, 39, 0.05);
+  --shadow-sm: 0 1px 3px rgba(17, 24, 39, 0.08), 0 1px 2px rgba(17, 24, 39, 0.04);
+  --shadow-md: 0 4px 12px rgba(17, 24, 39, 0.08);
+  --shadow-lg: 0 12px 28px rgba(17, 24, 39, 0.12);
+  --focus-ring: 0 0 0 3px rgba(226, 55, 68, 0.28);
+
+  /* ---- Layout ------------------------------------------------------------ */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1200px;
+
+  --navbar-h: 64px;
+  --sidebar-w: 248px;
+
+  /* ---- Motion ------------------------------------------------------------ */
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 320ms;
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  /* ---- Z-index ----------------------------------------------------------- */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-drawer: 1040;
+  --z-modal: 1050;
+  --z-toast: 1060;
+}
+
+/* Breakpoints are documented here because CSS variables cannot be used in
+   media queries. Tailwind theme mirrors these exact values.
+     sm  : 640px
+     md  : 768px
+     lg  : 1024px
+     xl  : 1280px
+     2xl : 1536px
+*/

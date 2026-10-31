@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wireframes - Admin</title>
+  <link rel="stylesheet" href="wireframe.css">
+</head>
+<body>
+<div class="board">
+  <h1 class="board__title">Platform administrator screens - low-fidelity wireframes</h1>
+  <p class="board__sub">Smart Food Delivery Management System - Phase 2 - v1, for review</p>
+  <p class="board__meta">Grayscale on purpose. Every table screen defines its loading, empty and error states. Destructive actions always open a confirm dialog with a reason field.</p>
+  <div class="screens">
+
+<!-- ================= a1 Dashboard ================= -->
+<section class="screen" id="a1">
+  <div class="screen__head"><span class="screen__id">A1</span><span class="screen__name">Admin dashboard</span><span class="screen__role">Admin</span><div class="screen__route">/admin</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item sidebar__item--active">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px"><div class="line line--title" style="width:160px"></div><span class="badge" style="background:#16A34A;color:#fff">LIVE</span></div>
+          <div class="grid-4" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">GMV today</div><div class="kpi__value">Rs 4,82,350</div></div>
+            <div class="kpi"><div class="kpi__label">Orders</div><div class="kpi__value">312</div></div>
+            <div class="kpi"><div class="kpi__label">Active partners</div><div class="kpi__value">38</div></div>
+            <div class="kpi"><div class="kpi__label">SLA breaches</div><div class="kpi__value">2</div></div>
+          </div>
+          <div class="grid-2">
+            <div class="card">
+              <div class="card__title">GMV - last 7 days</div>
+              <div class="row" style="align-items:flex-end;gap:4px;height:90px">
+                <div class="box" style="flex:1;height:45px"></div><div class="box" style="flex:1;height:60px"></div><div class="box" style="flex:1;height:50px"></div><div class="box" style="flex:1;height:75px"></div><div class="box" style="flex:1;height:65px"></div><div class="box" style="flex:1;height:90px"></div><div class="box" style="flex:1;height:70px"></div>
+              </div>
+              <div class="tiny muted" style="margin-top:4px">Mon Tue Wed Thu Fri Sat Sun</div>
+            </div>
+            <div class="card">
+              <div class="card__title">Needs attention</div>
+              <div class="row row--between"><span class="tiny">1 restaurant pending approval</span><button class="btn btn--sm">Review</button></div>
+              <div class="row row--between"><span class="tiny">2 complaints open</span><button class="btn btn--sm">Open</button></div>
+              <div class="row row--between"><span class="tiny">1 partner SLA breach</span><button class="btn btn--sm">View</button></div>
+            </div>
+          </div>
+          <div class="card" style="margin-top:8px">
+            <div class="card__title">Last admin action (undo stack, top)</div>
+            <div class="row row--between"><span class="tiny">Suspended restaurant "Cafe Mocha" - 2 min ago</span><button class="btn btn--sm btn--primary">Undo</button></div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The undo stack is LIFO and holds the last 50 reversible actions; it is empty after a server restart. The durable record is the audit log.</li>
+    <li><span class="anno">2</span> Undo applies the inverse operation and writes a new audit row, so the audit log stays append-only.</li>
+    <li><span class="anno">3</span> The "Undo" button disables when the stack is empty, so there is never a dead button.</li>
+  </ul>
+</section>
+
+<!-- ================= a2 Users ================= -->
+<section class="screen" id="a2">
+  <div class="screen__head"><span class="screen__id">A2</span><span class="screen__name">User management</span><span class="screen__role">Admin</span><div class="screen__route">/admin/users</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/users</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item sidebar__item--active">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <input class="input" placeholder="Search by name, email or phone" style="flex:1;max-width:260px">
+            <div class="row" style="gap:4px"><span class="chip chip--active">All</span><span class="chip">Active</span><span class="chip">Suspended</span></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th>Orders</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>Ayush Ekka</td><td>ayush@example.com</td><td>Customer</td><td>12 Sep 2026</td><td>14</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Meera Patel</td><td>meera@example.com</td><td>Customer</td><td>20 Sep 2026</td><td>3</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Rohan Das</td><td>rohan@example.com</td><td>Customer</td><td>02 Oct 2026</td><td>1</td><td><span class="badge" style="background:#DC2626;color:#fff">Suspended</span></td><td><button class="btn btn--sm btn--primary">Activate</button></td></tr>
+                <tr><td>Spice Route owner</td><td>owner@spiceroute.com</td><td>Restaurant</td><td>05 Oct 2026</td><td>-</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Rakesh Nayak</td><td>rakesh@example.com</td><td>Partner</td><td>08 Oct 2026</td><td>128</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Admin</td><td>admin@smartbite.com</td><td>Admin</td><td>01 Sep 2026</td><td>-</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm" disabled>Protected</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Suspending revokes the user's refresh tokens immediately, so the next request is rejected even with a live access token.</li>
+    <li><span class="anno">2</span> The admin account itself cannot be suspended or deleted.</li>
+    <li><span class="anno">3</span> Suspension is reversible and is pushed onto the undo stack.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No users match these filters"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a3 Restaurants ================= -->
+<section class="screen" id="a3">
+  <div class="screen__head"><span class="screen__id">A3</span><span class="screen__name">Restaurant management</span><span class="screen__role">Admin</span><div class="screen__route">/admin/restaurants</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/restaurants</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item sidebar__item--active">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:4px;margin-bottom:8px"><span class="chip chip--active">Pending (1)</span><span class="chip">Approved</span><span class="chip">Suspended</span></div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Restaurant</th><th>Owner</th><th>Cuisine</th><th>City</th><th>Rating</th><th>Commission</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>Cafe Mocha</td><td>priya@cafemocha.com</td><td>Cafe</td><td>Bhubaneswar</td><td>-</td><td>12%</td><td><span class="badge" style="background:#D97706;color:#fff">Pending</span></td><td><button class="btn btn--sm btn--primary">Approve</button> <button class="btn btn--sm btn--danger">Reject</button></td></tr>
+                <tr><td>Spice Route</td><td>owner@spiceroute.com</td><td>North Indian</td><td>Bhubaneswar</td><td>4.6</td><td>12%</td><td><span class="badge" style="background:#16A34A;color:#fff">Approved</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Biryani Junction</td><td>owner@bj.com</td><td>Biryani</td><td>Cuttack</td><td>4.4</td><td>15%</td><td><span class="badge" style="background:#16A34A;color:#fff">Approved</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Approval is required before a restaurant appears in customer discovery.</li>
+    <li><span class="anno">2</span> Suspending hides the restaurant from discovery but does not cancel its in-flight orders.</li>
+    <li><span class="anno">3</span> Rejection requires a reason, which is emailed to the owner.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No restaurants in this tab"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a4 Partners ================= -->
+<section class="screen" id="a4">
+  <div class="screen__head"><span class="screen__id">A4</span><span class="screen__name">Partner management</span><span class="screen__role">Admin</span><div class="screen__route">/admin/partners</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/partners</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item sidebar__item--active">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:4px;margin-bottom:8px"><span class="chip chip--active">Pending (1)</span><span class="chip">Active</span><span class="chip">Suspended</span></div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Partner</th><th>Vehicle</th><th>Zone</th><th>Deliveries</th><th>Rating</th><th>Availability</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td>Suresh Mohanty</td><td>Bike OD-05-CD-1122</td><td>Patia</td><td>0</td><td>-</td><td>Offline</td><td><span class="badge" style="background:#D97706;color:#fff">Pending</span></td><td><button class="btn btn--sm btn--primary">Approve</button> <button class="btn btn--sm btn--danger">Reject</button></td></tr>
+                <tr><td>Rakesh Nayak</td><td>Bike OD-02-AB-4412</td><td>Patia</td><td>128</td><td>4.8</td><td>Online</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+                <tr><td>Priya Sahoo</td><td>Scooter OD-01-EF-9900</td><td>Saheed Nagar</td><td>54</td><td>4.6</td><td>Offline</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm btn--danger">Suspend</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Suspending a partner removes them from the dispatch candidate set immediately.</li>
+    <li><span class="anno">2</span> An in-flight assignment is not cancelled by suspension; it completes normally.</li>
+    <li><span class="anno">3</span> Approval is required before a partner can go online and receive offers.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No partners in this tab"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a5 Orders ================= -->
+<section class="screen" id="a5">
+  <div class="screen__head"><span class="screen__id">A5</span><span class="screen__name">Order monitoring</span><span class="screen__role">Admin</span><div class="screen__route">/admin/orders</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/orders</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item sidebar__item--active">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <input class="input" placeholder="Search by order id" style="width:160px">
+            <div class="row" style="gap:4px"><span class="chip chip--active">All statuses</span><span class="chip">Date range</span><span class="chip">Restaurant</span></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Order</th><th>Customer</th><th>Restaurant</th><th>Partner</th><th>Amount</th><th>Payment</th><th>Status</th><th>Placed</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">FD-2026-004182</td><td>Ayush Ekka</td><td>Spice Route</td><td>Rakesh Nayak</td><td>Rs 875</td><td>COD</td><td><span class="badge" style="background:#D97706;color:#fff">PREPARING</span></td><td>7:38 PM</td><td><button class="btn btn--sm btn--danger">Force cancel</button></td></tr>
+                <tr><td class="mono">FD-2026-004180</td><td>Meera Patel</td><td>Biryani Junction</td><td>-</td><td>Rs 640</td><td>Paid</td><td><span class="badge" style="background:#4F46E5;color:#fff">ASSIGNED</span></td><td>7:12 PM</td><td><button class="btn btn--sm btn--danger">Force cancel</button></td></tr>
+                <tr><td class="mono">FD-2026-004175</td><td>Rohan Das</td><td>Green Bowl</td><td>Priya Sahoo</td><td>Rs 210</td><td>COD</td><td><span class="badge" style="background:#0D9488;color:#fff">OUT FOR DELIVERY</span></td><td>6:55 PM</td><td><button class="btn btn--sm btn--danger">Force cancel</button></td></tr>
+                <tr><td class="mono">FD-2026-004170</td><td>Anita Rao</td><td>Tandoor Nights</td><td>Rakesh Nayak</td><td>Rs 1,120</td><td>Paid</td><td><span class="badge" style="background:#16A34A;color:#fff">DELIVERED</span></td><td>6:20 PM</td><td><button class="btn btn--sm">View</button></td></tr>
+                <tr><td class="mono">FD-2026-004165</td><td>Karan Singh</td><td>Cafe Mocha</td><td>-</td><td>Rs 310</td><td>COD</td><td><span class="badge" style="background:#DC2626;color:#fff">REJECTED</span></td><td>5:48 PM</td><td><button class="btn btn--sm">View</button></td></tr>
+                <tr><td class="mono">FD-2026-004160</td><td>Priya Das</td><td>Spice Route</td><td>-</td><td>Rs 540</td><td>Paid</td><td><span class="badge" style="background:#DC2626;color:#fff">CANCELLED</span></td><td>5:30 PM</td><td><button class="btn btn--sm">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Force cancel is admin-only, requires a reason, triggers a refund if paid, restores stock, and writes an audit row.</li>
+    <li><span class="anno">2</span> Force cancel is not offered on DELIVERED orders.</li>
+    <li><span class="anno">3</span> The filter bar pushes its state into the URL so a filtered view is shareable.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No orders match these filters"</div>
+    <div class="state"><b>Error</b>retry button</div>
+    <div class="state"><b>Confirm</b>force-cancel dialog with a reason textarea</div>
+  </div>
+</section>
+
+<!-- ================= a6 Coupons ================= -->
+<section class="screen" id="a6">
+  <div class="screen__head"><span class="screen__id">A6</span><span class="screen__name">Coupons &amp; categories</span><span class="screen__role">Admin</span><div class="screen__route">/admin/coupons</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/coupons</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item sidebar__item--active">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:4px;margin-bottom:8px"><span class="chip chip--active">Coupons</span><span class="chip">Categories</span></div>
+          <div class="row row--between" style="margin-bottom:8px"><div class="tiny muted">4 active coupons</div><button class="btn btn--primary btn--sm">+ Create coupon</button></div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Code</th><th>Type</th><th>Value</th><th>Min order</th><th>Max discount</th><th>Valid until</th><th>Used</th><th>Status</th><th>Actions</th></tr></thead>
+              <tbody>
+                <tr><td class="mono">FIRST50</td><td>Percent</td><td>50%</td><td>Rs 300</td><td>Rs 100</td><td>31 Dec 2026</td><td>124 / 500</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm btn--danger">Disable</button></td></tr>
+                <tr><td class="mono">FLAT100</td><td>Flat</td><td>Rs 100</td><td>Rs 500</td><td>-</td><td>15 Nov 2026</td><td>42 / 200</td><td><span class="badge" style="background:#16A34A;color:#fff">Active</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm btn--danger">Disable</button></td></tr>
+                <tr><td class="mono">WELCOME20</td><td>Percent</td><td>20%</td><td>Rs 200</td><td>Rs 60</td><td>31 Dec 2026</td><td>890 / 1000</td><td><span class="badge" style="background:#D97706;color:#fff">Almost used</span></td><td><button class="btn btn--sm">Edit</button> <button class="btn btn--sm btn--danger">Disable</button></td></tr>
+                <tr><td class="mono">OLDCODE</td><td>Flat</td><td>Rs 50</td><td>Rs 150</td><td>-</td><td>01 Oct 2026</td><td>500 / 500</td><td><span class="badge" style="background:#DC2626;color:#fff">Expired</span></td><td><button class="btn btn--sm">View</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">Validation rules: min order amount, validity window, global usage limit, per-user limit, max discount cap, first-order-only flag.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> A coupon is applied only after the server re-validates every rule; a rejected coupon returns the exact reason.</li>
+    <li><span class="anno">2</span> Per-user limits are enforced by the coupon_redemptions table (unique on coupon + order).</li>
+    <li><span class="anno">3</span> Categories are global (Starters, Mains, Desserts, ...) and are managed on the second tab.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No coupons yet"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a7 Complaints ================= -->
+<section class="screen" id="a7">
+  <div class="screen__head"><span class="screen__id">A7</span><span class="screen__name">Complaint management</span><span class="screen__role">Admin</span><div class="screen__route">/admin/complaints</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/complaints</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item sidebar__item--active">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="grid-2" style="grid-template-columns:200px 1fr">
+            <div class="col">
+              <div class="row" style="gap:4px;margin-bottom:6px"><span class="chip chip--active">Open (2)</span><span class="chip">In review</span><span class="chip">Resolved</span></div>
+              <div class="card" style="margin-bottom:6px;border-left:3px solid #9B2C2C"><div class="tiny" style="font-weight:600">Late delivery</div><div class="tiny muted">FD-2026-004175 - 2 h ago</div></div>
+              <div class="card" style="margin-bottom:6px"><div class="tiny" style="font-weight:600">Cold food</div><div class="tiny muted">FD-2026-004162 - 5 h ago</div></div>
+              <div class="card" style="margin-bottom:6px"><div class="tiny" style="font-weight:600">Wrong item</div><div class="tiny muted">FD-2026-004151 - 1 d ago</div></div>
+              <div class="card"><div class="tiny" style="font-weight:600">Refund request</div><div class="tiny muted">FD-2026-004144 - 2 d ago</div></div>
+            </div>
+            <div class="col">
+              <div class="card">
+                <div class="card__title">Complaint #C-1042 - Late delivery</div>
+                <div class="tiny muted" style="margin-bottom:6px">Raised by Ayush Ekka on 30 Oct 2026, 9:12 PM - order FD-2026-004175 - Spice Route</div>
+                <div class="tiny" style="margin-bottom:8px">"The order arrived 40 minutes after the promised ETA. The food was cold by the time it reached me."</div>
+                <div class="card__title">Resolution</div>
+                <textarea class="input" placeholder="Explain the resolution to the customer" style="min-height:60px;width:100%"></textarea>
+                <div class="row" style="margin-top:8px;gap:6px">
+                  <button class="btn btn--sm">Mark in review</button>
+                  <button class="btn btn--sm btn--primary">Resolve</button>
+                  <button class="btn btn--sm btn--danger">Reject</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Workflow: OPEN -> IN_REVIEW -> RESOLVED or REJECTED. The customer is notified on resolve/reject.</li>
+    <li><span class="anno">2</span> Resolving may include a refund, which is recorded as a payment transaction.</li>
+    <li><span class="anno">3</span> Rejection requires a reason that is shown to the customer.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton ticket list</div>
+    <div class="state"><b>Empty</b>"No complaints - all clear"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a8 Analytics ================= -->
+<section class="screen" id="a8">
+  <div class="screen__head"><span class="screen__id">A8</span><span class="screen__name">Analytics</span><span class="screen__role">Admin</span><div class="screen__route">/admin/analytics</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/analytics</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item sidebar__item--active">Analytics</div>
+          <div class="sidebar__item">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row" style="gap:6px;margin-bottom:10px"><span class="chip chip--active">Last 7 days</span><span class="chip">Last 30 days</span><span class="chip">Custom</span></div>
+          <div class="grid-4" style="margin-bottom:10px">
+            <div class="kpi"><div class="kpi__label">GMV</div><div class="kpi__value">Rs 32.4L</div></div>
+            <div class="kpi"><div class="kpi__label">Orders</div><div class="kpi__value">2,184</div></div>
+            <div class="kpi"><div class="kpi__label">Avg order value</div><div class="kpi__value">Rs 482</div></div>
+            <div class="kpi"><div class="kpi__label">Active restaurants</div><div class="kpi__value">47</div></div>
+          </div>
+          <div class="card" style="margin-bottom:8px">
+            <div class="card__title">Revenue trend</div>
+            <div class="box" style="height:120px"><span>line chart placeholder</span></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <div class="card__title" style="padding:8px 8px 0">Top restaurants by revenue</div>
+            <table class="table">
+              <thead><tr><th>Restaurant</th><th>Orders</th><th>Revenue</th><th>Share</th></tr></thead>
+              <tbody>
+                <tr><td>Spice Route</td><td>312</td><td>Rs 4,82,350</td><td>18.2%</td></tr>
+                <tr><td>Biryani Junction</td><td>284</td><td>Rs 3,91,200</td><td>14.7%</td></tr>
+                <tr><td>Green Bowl</td><td>198</td><td>Rs 2,46,800</td><td>9.3%</td></tr>
+                <tr><td>Tandoor Nights</td><td>176</td><td>Rs 2,18,400</td><td>8.2%</td></tr>
+                <tr><td>Cafe Mocha</td><td>142</td><td>Rs 1,72,600</td><td>6.5%</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">Aggregates come from SQL GROUP BY; the in-memory sort orders only the fetched page with a stable merge sort, so equal revenue keeps alphabetical order.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> Aggregates are computed in SQL; the in-memory sort is applied only to the fetched page.</li>
+    <li><span class="anno">2</span> Charts are rendered with Recharts on the frontend.</li>
+    <li><span class="anno">3</span> Date ranges are capped at 90 days to keep queries fast.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton KPIs and chart</div>
+    <div class="state"><b>Empty</b>"No data in this range"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+<!-- ================= a9 Audit log ================= -->
+<section class="screen" id="a9">
+  <div class="screen__head"><span class="screen__id">A9</span><span class="screen__name">Audit log</span><span class="screen__role">Admin</span><div class="screen__route">/admin/audit</div></div>
+  <div class="device device--desktop">
+    <div class="device__chrome"><i class="device__dot"></i><i class="device__dot"></i><i class="device__dot"></i><span class="device__url">localhost:5173/admin/audit</span></div>
+    <div class="device__body">
+      <div class="shell">
+        <aside class="sidebar">
+          <div class="sidebar__item">Dashboard</div>
+          <div class="sidebar__item">Users</div>
+          <div class="sidebar__item">Restaurants</div>
+          <div class="sidebar__item">Partners</div>
+          <div class="sidebar__item">Orders</div>
+          <div class="sidebar__item">Coupons</div>
+          <div class="sidebar__item">Complaints</div>
+          <div class="sidebar__item">Analytics</div>
+          <div class="sidebar__item sidebar__item--active">Audit log</div>
+        </aside>
+        <main class="main">
+          <div class="row row--between" style="margin-bottom:8px">
+            <input class="input" placeholder="Filter by actor or action" style="width:220px">
+            <div class="row" style="gap:4px"><span class="chip chip--active">All</span><span class="chip">Reversible only</span></div>
+          </div>
+          <div class="card" style="padding:0;overflow:hidden">
+            <table class="table">
+              <thead><tr><th>Time</th><th>Actor</th><th>Action</th><th>Entity</th><th>Entity id</th><th>Reversible</th><th>Undo</th></tr></thead>
+              <tbody>
+                <tr><td>8:12 PM</td><td>admin</td><td>Suspend restaurant</td><td>Restaurant</td><td>17</td><td>Yes</td><td><button class="btn btn--sm btn--primary">Undo</button></td></tr>
+                <tr><td>7:58 PM</td><td>admin</td><td>Approve partner</td><td>Partner</td><td>42</td><td>Yes</td><td><button class="btn btn--sm" disabled>Undo</button></td></tr>
+                <tr><td>7:41 PM</td><td>admin</td><td>Update price</td><td>Food item</td><td>109</td><td>Yes</td><td><button class="btn btn--sm" disabled>Undo</button></td></tr>
+                <tr><td>7:30 PM</td><td>system</td><td>Force cancel order</td><td>Order</td><td>FD-2026-004160</td><td>No</td><td><button class="btn btn--sm" disabled>-</button></td></tr>
+                <tr><td>7:15 PM</td><td>admin</td><td>Disable coupon</td><td>Coupon</td><td>FIRST50</td><td>Yes</td><td><button class="btn btn--sm" disabled>Undo</button></td></tr>
+                <tr><td>6:58 PM</td><td>admin</td><td>Suspend user</td><td>User</td><td>23</td><td>Yes</td><td><button class="btn btn--sm" disabled>Undo</button></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="tiny muted" style="margin-top:6px">Undo pops the stack, applies the inverse operation and writes a new audit row. The control disables when the stack is empty, so there is never a dead button.</div>
+        </main>
+      </div>
+    </div>
+  </div>
+  <ul class="notes">
+    <li><span class="anno">1</span> The audit log is append-only; even an undo creates a new row.</li>
+    <li><span class="anno">2</span> Only the top reversible action can be undone, in LIFO order.</li>
+    <li><span class="anno">3</span> Non-reversible actions (force cancel, refunds) are recorded for traceability only.</li>
+  </ul>
+  <div class="states">
+    <div class="state"><b>Loading</b>skeleton rows</div>
+    <div class="state"><b>Empty</b>"No actions recorded yet"</div>
+    <div class="state"><b>Error</b>retry button</div>
+  </div>
+</section>
+
+  </div>
+</div>
+</body>
+</html>
