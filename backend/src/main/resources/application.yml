@@ -34,6 +34,7 @@ spring:
     locations: classpath:db/migration
     baseline-on-migrate: false
     validate-on-migrate: true
+    clean-disabled: true
 
   jackson:
     # Serialise enums as their name; keep money as BigDecimal strings.
@@ -61,9 +62,16 @@ management:
 # Application-specific settings (read by AppProperties in a later phase)
 app:
   jwt:
-    secret: ${JWT_SECRET:CHANGE_ME_at_least_32_characters_long_random_string}
-    access-ttl-minutes: ${JWT_ACCESS_TTL_MINUTES:15}
+    secret: ${JWT_SECRET:}
+    access-ttl-minutes: 15
     refresh-ttl-days: ${JWT_REFRESH_TTL_DAYS:7}
+  auth:
+    refresh-cookie:
+      name: refresh_token
+      http-only: true
+      secure: true
+      same-site: Strict
+      path: /api/v1/auth
   cors:
     allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}
   pricing:

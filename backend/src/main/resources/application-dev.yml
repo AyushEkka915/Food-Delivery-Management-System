@@ -10,7 +10,7 @@ spring:
         format_sql: true
     show-sql: true
   flyway:
-    clean-disabled: false
+    clean-disabled: true
 
 logging:
   level:
