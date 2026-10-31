@@ -71,7 +71,7 @@ The toolchain lives in `.tools/` (gitignored), so nothing is installed system-wi
 - [ ] Phase 1 — Requirements & architecture
 - [x] Phase 2 � UI/UX & wireframes
 - [x] Phase 3 - Database & ER
-- [ ] Phase 4 — Spring Boot init
+- [x] Phase 4 - Spring Boot init
 - [ ] Phase 5 — Domain layer
 - [ ] Phase 6 — Auth & RBAC
 - [ ] Phase 7 — Restaurant & menu
