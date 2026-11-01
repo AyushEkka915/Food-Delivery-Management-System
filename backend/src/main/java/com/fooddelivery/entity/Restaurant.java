@@ -64,6 +64,19 @@ public class Restaurant extends AuditableEntity {
     public String getName() { return name; }
     public String getCuisine() { return cuisine; }
     public RestaurantStatus getStatus() { return status; }
+    public boolean canTransitionStatusTo(RestaurantStatus nextStatus) {
+        return (status == RestaurantStatus.PENDING
+                    && (nextStatus == RestaurantStatus.APPROVED || nextStatus == RestaurantStatus.SUSPENDED))
+                || (status == RestaurantStatus.APPROVED && nextStatus == RestaurantStatus.SUSPENDED);
+    }
+
+    public void transitionStatusTo(RestaurantStatus nextStatus) {
+        if (!canTransitionStatusTo(nextStatus)) {
+            throw new IllegalStateException("Restaurant status transition is not allowed");
+        }
+        status = nextStatus;
+    }
+
     public LocalTime getOpeningTime() { return openingTime; }
     public LocalTime getClosingTime() { return closingTime; }
     public BigDecimal getRatingAverage() { return ratingAverage; }

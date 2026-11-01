@@ -54,6 +54,10 @@ public class FoodItem extends AuditableEntity {
 
     public void changeAvailability(boolean available) { this.available = available; }
 
+    public void changeCategory(FoodCategory category) {
+        this.category = Objects.requireNonNull(category, "category is required");
+    }
+
     public void updateStockQuantity(int stockQuantity) {
         if (stockQuantity < 0) throw new IllegalArgumentException("stockQuantity must be nonnegative");
         this.stockQuantity = stockQuantity;
