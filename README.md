@@ -1,92 +1,224 @@
 # Smart Food Delivery Management System
 
-A full-stack food delivery platform with four roles — customer, restaurant, delivery partner and admin — built as a college major project.
+A full-stack Food Delivery Management System developed as a B.Tech Computer Science major project using Java, Spring Boot, MySQL, and React.
 
-## What this is
+**Project Status:** 🚧 Under Active Development
 
-This is a food delivery management platform covering the full order journey: browsing restaurants and menus, cart and pricing, order placement, restaurant acceptance and preparation, delivery-partner assignment and live tracking, and admin oversight.
+## 1. Project Overview
 
-It is built as a college major project to demonstrate practical Java backend development, data structures and algorithms (queues, heaps, graphs, sorting/searching), DBMS design, and a REST API consumed by a React frontend.
+The Smart Food Delivery Management System is designed to manage the complete food ordering and delivery process through a centralized platform.
 
-The repository is currently at **Phase 0 (environment and repository setup)**. No application code exists yet — the sections below describe the intended stack and layout, not a working system.
+The system is planned around four primary user roles:
 
-## Tech stack
+- **Customer:** Browse restaurants, explore menus, place orders, and track deliveries.
+- **Restaurant Manager:** Manage restaurant information, food items, availability, and incoming orders.
+- **Delivery Partner:** Handle delivery assignments and update delivery progress.
+- **Administrator:** Manage platform operations, approve restaurants, and oversee system activity.
+
+The project aims to demonstrate practical software engineering concepts, backend development, database management, data structures and algorithms, and frontend integration.
+
+## 2. Technology Stack
 
 | Layer | Technologies |
 |---|---|
-| Frontend | React 18, Vite, Tailwind CSS 3.4, Axios, React Router, STOMP over WebSocket |
-| Backend | Java 21, Spring Boot 3.5, Spring Web, Spring Data JPA / Hibernate, Spring Security, WebSocket |
-| Database | MySQL 8, Flyway |
+| Backend | Java 21, Spring Boot 3.5 |
+| Backend Security | Spring Security, JWT Authentication |
+| Database | MySQL 8 |
+| ORM | Spring Data JPA, Hibernate |
+| Database Migrations | Flyway |
+| Build Tool | Maven |
 | Testing | JUnit 5, Mockito |
-| Tools | Maven, Postman, Git |
+| Frontend (planned) | React, Vite, Tailwind CSS |
+| API Testing | Postman |
+| Version Control | Git, GitHub |
 
-## Repository layout
+## 3. Implemented Features
 
-```
-.
-├── backend/          Spring Boot application (Maven)
-├── frontend/         React + Vite application
-├── docs/             Architecture, phase plan and project documentation
-├── design/           Design tokens, wireframes and component inventory
-├── scripts/          Helper scripts (setup, run, database utilities)
-├── postman/          Postman collections and environments
-├── .tools/           Project-local JDK/Maven/Node toolchain (gitignored)
-├── .editorconfig
-├── .env.example      Placeholder-only environment template (safe to commit)
-├── .gitattributes
+The following backend functionality has been implemented:
+
+### Authentication and Authorization
+- JWT-based authentication.
+- Access and refresh token handling.
+- Refresh token rotation.
+- Role-based access control.
+
+### Restaurant Management
+- Restaurant registration.
+- Restaurant ownership and management.
+- Restaurant approval workflow.
+- Restaurant suspension functionality.
+- Admin restaurant management.
+
+### Menu Management
+- Food item management.
+- Menu availability and stock handling.
+- Restaurant ownership validation.
+- Public menu retrieval.
+
+### Public Restaurant Catalog
+- Approved restaurant listing.
+- Restaurant detail retrieval.
+- Restaurant filtering and sorting.
+- Price and vegetarian filters.
+- Pagination support.
+- Public visibility restrictions for unapproved restaurants and unavailable food items.
+
+### Testing and Database Safety
+- Unit and repository tests.
+- MySQL integration tests.
+- Dedicated test database configuration.
+- Flyway migration validation.
+- Test database isolation safeguards.
+
+## 4. Planned Features
+
+The following modules are part of the intended project scope and are still under development:
+
+- Customer registration and profile management.
+- Shopping cart and checkout.
+- Dynamic pricing, taxes, delivery fees, and coupons.
+- Order placement and lifecycle management.
+- FIFO-based order processing.
+- Delivery partner assignment using priority queues/heaps.
+- Graph-based delivery route optimization using Dijkstra's algorithm.
+- Delivery tracking and WebSocket integration.
+- Payment integration.
+- Admin analytics and audit logs.
+- React frontend integration.
+- Final system testing and deployment.
+
+## 5. Data Structures and Algorithms
+
+An important objective of this project is to demonstrate the practical application of DSA concepts in a real-world software system.
+
+| Concept | Intended Application |
+|---|---|
+| Queue | Order processing and FIFO order management |
+| Priority Queue / Heap | Delivery partner assignment |
+| Graph | Representation of delivery routes |
+| Dijkstra's Algorithm | Shortest-path calculation |
+| Sorting | Restaurant and menu sorting |
+| Searching | Restaurant and food item discovery |
+
+These integrations will be implemented as the corresponding project modules are developed.
+
+## 6. Repository Structure
+
+```text
+Food-Delivery-Management-System/
+│
+├── backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/com/fooddelivery/
+│   │   │   └── resources/
+│   │   └── test/
+│   │
+│   └── pom.xml
+│
+├── frontend/
+├── design/
+├── docs/
+├── postman/
+├── scripts/
+│
+├── .env.example
 ├── .gitignore
+├── .editorconfig
+├── .gitattributes
 └── README.md
 ```
 
-`backend/`, `frontend/`, `design/` and `postman/` are empty placeholders in Phase 0, each holding a `.gitkeep` so the folder is tracked. `scripts/` holds the Phase 0 environment helpers (`env.ps1`, `doctor.ps1`, `create-database.sql`). The pre-existing `TicketBookingSystem/` folder is an unrelated earlier exercise, not part of this project's layout.
+Some modules and directories are still being developed.
 
-## Prerequisites
+## 7. Prerequisites
 
 | Requirement | Version |
 |---|---|
 | JDK | 21 |
-| Maven | 3.9 |
-| Node.js | 20 or newer |
-| npm | Bundled with Node.js 20+ |
-| MySQL | 8 |
+| Maven | 3.9.x |
+| MySQL | 8.x |
+| Node.js | 20+ (for frontend development) |
+| npm | Bundled with Node.js |
 
-## Getting started
+## 8. Getting Started
 
-There is nothing to build yet. This project is scaffolded only: no `pom.xml`, no `package.json`, no application source and no database migrations exist at this stage.
+### Backend Setup
 
-Build and run instructions will be added in **Phase 4 (Spring Boot initialization)** once the backend skeleton actually exists. Commands are deliberately not documented here yet, because inventing them before the code exists would produce instructions that fail.
+1. Clone the repository:
 
-What you *can* run today is the environment check:
-
-```powershell
-. .\scripts\env.ps1     # activates the project-local JDK 21 + Maven 3.9 toolchain
-.\scripts\doctor.ps1    # read-only PASS/FAIL report for every dependency
+```bash
+git clone https://github.com/AyushEkka915/Food-Delivery-Management-System.git
 ```
 
-The toolchain lives in `.tools/` (gitignored), so nothing is installed system-wide. `scripts/create-database.sql` creates the MySQL database and a least-privilege application user; see `docs/02-phase-0-environment.md` for the full procedure.
+2. Navigate to the project directory:
 
-## Project status
+```bash
+cd Food-Delivery-Management-System
+```
 
-- [x] **Phase 0** — Environment setup
-- [ ] Phase 1 — Requirements & architecture
-- [x] Phase 2 � UI/UX & wireframes
-- [x] Phase 3 - Database & ER
-- [x] Phase 4 - Spring Boot init
-- [ ] Phase 5 — Domain layer
-- [ ] Phase 6 — Auth & RBAC
-- [ ] Phase 7 — Restaurant & menu
-- [ ] Phase 8 — DSA core + tests
-- [ ] Phase 9 — Cart, pricing, coupons
-- [ ] Phase 10 — Order lifecycle + FIFO queue
-- [ ] Phase 11 — Delivery assignment (heap)
-- [ ] Phase 12 — Graph + Dijkstra + fees
-- [ ] Phase 13 — React frontend
-- [ ] Phase 14 — WebSocket live tracking
-- [ ] Phase 15 — Payments
-- [ ] Phase 16 — Admin + analytics + audit
-- [ ] Phase 17 — Testing & optimization
-- [ ] Phase 18 — Deployment & documentation
+3. Configure your environment variables using `.env.example` as a reference.
 
-## Author
+4. Configure your MySQL database and credentials.
 
-Ayush Ekka
+5. Activate the project environment in PowerShell:
+
+```powershell
+. .\scripts\env.ps1
+```
+
+6. Run the backend using Maven:
+
+```powershell
+mvn -f backend/pom.xml spring-boot:run
+```
+
+Database migrations are managed by Flyway. Ensure that your database credentials and required environment variables are configured before starting the application.
+
+## 9. Development Roadmap
+
+| Phase | Description | Status |
+|---|---|---|
+| 0 | Environment and repository setup | Completed |
+| 1 | Requirements and architecture | Completed |
+| 2 | UI/UX and wireframes | Completed |
+| 3 | Database design and ER model | Completed |
+| 4 | Spring Boot initialization | Completed |
+| 5 | Domain model and backend foundation | Completed |
+| 6 | Authentication and role-based access | Completed |
+| 7 | Restaurant and menu management | In Progress |
+| 8 | DSA core implementations | Planned |
+| 9 | Cart, pricing and coupons | Planned |
+| 10 | Order lifecycle and FIFO queue | Planned |
+| 11 | Delivery assignment using heaps | Planned |
+| 12 | Graph algorithms and route optimization | Planned |
+| 13 | React frontend | Planned |
+| 14 | WebSocket live tracking | Planned |
+| 15 | Payment integration | Planned |
+| 16 | Admin analytics and audit | Planned |
+| 17 | Testing and optimization | In Progress |
+| 18 | Deployment and documentation | Planned |
+
+*Roadmap statuses reflect the current development stage and may change as implementation progresses.*
+
+## 10. Project Goals
+
+- Build a functional full-stack food delivery application.
+- Apply Java and Spring Boot backend development concepts.
+- Implement meaningful DSA concepts in practical workflows.
+- Design and manage a relational database using MySQL.
+- Develop secure REST APIs.
+- Follow modular architecture and software engineering practices.
+- Gain experience with testing, version control, and deployment.
+
+## 11. Author
+
+**Ayush Ekka**
+
+B.Tech – Computer Science and Engineering
+
+GitHub: [AyushEkka915](https://github.com/AyushEkka915)
+
+---
+
+**Note:** This is an academic project under active development. Not all planned features are currently implemented. The repository will be updated as development progresses.
